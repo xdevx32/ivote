@@ -1,0 +1,16 @@
+----------------------------------------------------------------
+Wed May 27 21:34:06 EEST 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0172-5769-b4ad-00000604d830 
+on database directory memory:/Users/ace_dev/Documents/NBU/bachelor_thesis/code/voting-e-gov/testdb with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Loaded from file:/Users/ace_dev/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_211-b12
+user.dir=/Users/ace_dev/Documents/NBU/bachelor_thesis/code/voting-e-gov
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.13.6
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Wed May 27 21:34:35 EEST 2020:
+Shutting down instance a816c00e-0172-5769-b4ad-00000604d830 on database directory memory:/Users/ace_dev/Documents/NBU/bachelor_thesis/code/voting-e-gov/testdb with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 

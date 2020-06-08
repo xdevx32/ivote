@@ -1,0 +1,156 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="icon" type="image/png" href="img/favicon.png"/>
+    <title>Страница за гласуване</title>
+
+    <!-- Font Awesome Icons -->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css"/>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet"/>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'/>
+
+    <!-- Plugin CSS -->
+    <link th:href="@{/vendor/magnific-popup/magnific-popup.css}" rel="stylesheet" type="text/css"/>
+
+    <!-- Theme CSS - Includes Bootstrap -->
+    <link th:href="@{/css/creative.min.css}"   rel="stylesheet"/>
+    <link th:href="@{/css/additional.css}" rel="stylesheet"/>
+    <!--    Move these styles to the main styles-->
+    <!-- Styles for the modal popup -->
+    <link th:href="@{/css/modal.css}" rel="stylesheet"/>
+    <link th:href="@{/css/listing-parties.css}" rel="stylesheet"/>
+</head>
+<body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="/">Начална страница</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto my-2 my-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#services">Кандидати</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#contact">Контакти</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Masthead -->
+    <!--Adding modal -->
+    <div id="master-modal" th:if="${citizen.id == 0 && citizen.EGN == null && citizen.uniqueVoteId == null}" >
+        <h2 align="center">Въведете данните:</h2>
+        <p th:text="${msg}" style=""></p>
+        <!-- Trigger/Open The Modal -->
+        <div align="center">
+            <button id="myBtn">Въведете данните си като гражданин</button>
+            <br /> <br />
+        </div>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form action="#" th:action="@{/vote-validated}" th:object="${citizen}" method="post">
+                    <table style="padding: 5px; text-align: center;" align="center">
+                        <tr>
+                            <td>Единен Граждански Номер :</td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="egn" th:field="*{EGN}" placeholder="ЕГН" /></td>
+                        </tr>
+                        <tr>
+                            <td>Уникален ключ за гласуване:</td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="unique-key" th:field="*{uniqueVoteId}" placeholder="74Q8$#-662-!@$" /></td>
+                        </tr>
+                    </table>
+                    <center>
+                        <input type="submit" value="Въведи" />
+                    </center>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- End adding modal -->
+     <header class="masthead" th:if="${citizen.id != 0 && citizen.EGN != null && citizen.uniqueVoteId != null}">
+        <form action="#" th:action="@{/vote-success}" th:object="${party}" method="post">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center justify-content-center text-center">
+                    <div class="col-lg-10 align-self-end" id="parties-grid">
+                        <h1 class="text-uppercase text-white font-weight-bold">Изберете партията за която ще гласувате.</h1>
+                        <hr class="divider my-4">
+                        <!-- Implement with for loop with the Party data! -->
+                        <div id="grid-container-for-partyname" class="grid-container"th:each="party: ${parties}">
+                            <div class="blt-radio-btn grid-item"  th:text="${party.number +'. '+party.name}" ></div>
+                            <input type="radio" th:name="${'radio' + party.number}" class="blt-radio-btn" th:field="*{id}" th:value="${party.id}" style="transform: scale(2);"/>
+                            <label class="css-label" th:for="${'radio' + party.number}"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 align-self-baseline">
+
+                        <button type="submit"  class="btn btn-primary btn-xl js-scroll-trigger">Гласувай</button>
+                    </div>
+                </div>
+            </div>
+         </form>
+    </header>
+
+</body>
+
+
+
+<!-- Footer -->
+
+
+<!-- IF CUSTOMER IS ANONYMOUS -->
+<div th:if="${citizen.name}">
+    <footer id="footer-copyright-footer" class="bg-light py-5">
+        <div class="container">
+            <div class="small text-center text-muted">Всички права запазени &copy; 2020 - Университетски проект</div>
+        </div>
+    </footer>
+</div>
+<!-- ELSE -->
+<div th:unless="${citizen.name}">
+    <footer id="footerr-copyright-footer" class="bg-light py-5">
+        <div class="container">
+            <div class="small text-center text-muted">Всички права запазени &copy; 2019 - Университетски проект</div>
+        </div>
+    </footer>
+</div>
+
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!--<script th:src="@{/js/checkboxes.js}"></script>-->
+
+<!-- Plugin JavaScript -->
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+<script th:src="@{/vendor/magnific-popup/jquery.magnific-popup.min.js}"></script>
+
+<!-- Custom scripts for this template -->
+<script th:src="@{/js/creative.min.js}"></script>
+
+<!-- Script for the modal -->
+<script th:src="@{/js/modal.js}"></script>
+</html>

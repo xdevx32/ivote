@@ -1,0 +1,14 @@
+.masthead {
+    height: auto !important;
+}
+#grid-container-for-partyname {
+
+  width: 90%;
+  float: right;
+}
+
+
+#grid-container-for-partyname blt-radio-btn grid-item {
+    min-height: 85px;
+    text-align: center;
+}
