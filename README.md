@@ -1,4 +1,4 @@
-# voting-e-gov
+# voting-i-gov
 
 Spring Boot Application freshly initialized project with a set of dependencies.
 
