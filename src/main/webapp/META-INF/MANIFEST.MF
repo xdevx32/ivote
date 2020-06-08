@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: demo.evote
+Implementation-Version: ivote-system-WAR-WITHOUTADMINACCESS-3.0
+Built-By: ace_dev
+Implementation-Vendor-Id: com.example.evote.prototype
+Created-By: Apache Maven 3.6.3
+Build-Jdk: 1.8.0_211
+Implementation-URL: http://ivote-bg.com
+
