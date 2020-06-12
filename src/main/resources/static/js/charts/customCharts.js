@@ -57,6 +57,13 @@
     /*  1.  Basic Line Chart
     /*----------------------------------------*/
     var ctx = document.getElementById("basiclinechart");
+    // if(ballotsTimelineListFirstYear.length == null) {
+        ballotsTimelineListFirstYear = [16, 344, 445, 442, 155, 820, 433, 20, 150, 150, 3, 22];
+    // }
+
+    // if(ballotsTimelineListSecondYear.length == null) {
+        ballotsTimelineListSecondYear = [12, 34, 45, 42, 100, 80, 43, 200, 150, 300, 500, 321];
+    // }
     var basiclinechart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -66,13 +73,13 @@
                 fill: false,
                 backgroundColor: '#00c292',
                 borderColor: '#00c292',
-                data: ballotsTimelineListFirstDay /*[16, 344, 445, 442, 155, 820, 433, 20, 150, 150, 3]*///TestData First day
+                data: ballotsTimelineListFirstYear /*[16, 344, 445, 442, 155, 820, 433, 20, 150, 150, 3]*///TestData First day
             }, {
                 label: "Гласове миналата година.",
                 fill: false,
                 backgroundColor: '#fb9678',
                 borderColor: '#fb9678',
-                data: ballotsTimelineListSecondDay /*[12, 34, 45, 42, 100, 80, 43, 200, 150, 300, 500]*///TestData Second day
+                data: ballotsTimelineListSecondYear /*[12, 34, 45, 42, 100, 80, 43, 200, 150, 300, 500]*///TestData Second day
 
         }]
         },

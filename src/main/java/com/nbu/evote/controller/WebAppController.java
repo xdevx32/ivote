@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -76,16 +77,6 @@ public class WebAppController {
         model.addAttribute("party", party);
         return "../static/party-info-page";
     }
-// delete?? TODO:
-//    @RequestMapping(value = "/party-info-page", method = {RequestMethod.GET} )
-//    public String partyInfoPage(Model model, @ModelAttribute Party party) {
-//        model.addAttribute("party", clickedParty);
-//
-//        party = (Party) model.getAttribute("party");
-//        clickedParty = (Party) model.getAttribute("party");
-//        model.addAttribute("party",model.getAttribute("party") );
-//        return "../static/party-info-page";
-//    }
 
     @RequestMapping("/admin")
     public String admin(Model model){
@@ -236,12 +227,12 @@ public class WebAppController {
          */
         //Hardcoded values of section days
         //TODO!!!!!!! Discuss!!!!
-        LocalDate currentYear = LocalDate.now();
-        LocalDate lastYear = LocalDate.now().minusYears(1);
+        int currentYear = LocalDate.now().getYear();
+        int lastYear = LocalDate.now().minusYears(1).getYear();
 
 
         List<LocalTime> voteTimeListFirstDay = ballotsList.stream()
-                .filter(b -> b.getDate().isEqual(currentYear))
+                .filter(b -> b.getDate().getYear() == (currentYear))
                 .map(Ballot::getTime)
 //                .map(Ballot::getTimeString)
                 .collect(toList());
@@ -251,7 +242,7 @@ public class WebAppController {
                 .collect(toList());
 
         List<LocalTime> voteTimeListSecondDay = ballotsList.stream()
-                .filter(b -> b.getDate().isEqual(lastYear))
+                .filter(b -> b.getDate().getYear() == lastYear)
                 .map(Ballot::getTime)
                 .collect(toList());
 
@@ -413,7 +404,7 @@ public class WebAppController {
         Integer totalBallotsCastedForSection = ballotService.getBallots().size();
 
         System.out.println("Total Ballots for section: " + totalBallotsCastedForSection);
-        String dateOfVoteFromBackend = currentYear.toString();
+        String dateOfVoteFromBackend = String.valueOf(currentYear);
 
 
         // Създаване на абривиатури за имената, понеже на страницата излизат
@@ -423,13 +414,43 @@ public class WebAppController {
         );
 
         System.out.println(partyNamesList);
+
+
+
+
+
+
+        // Testing the data
+        System.out.println(partyBallotsCountList);
+        System.out.println(voteTimeListCurrentYearStringsSorted);
+        System.out.println(voteTimeListPreviousYearStringsSorted);
+        System.out.println(dateOfVoteFromBackend);
+        System.out.println(totalBallotsCastedForSection);
+        System.out.println(pieChartData);
+
+
         model.addAttribute("partiesNamesList", partyNamesList);
         model.addAttribute("ballotsCountList", partyBallotsCountList);
-        model.addAttribute("ballotsTimelineListFirstDay", voteTimeListCurrentYearStringsSorted);
-        model.addAttribute("ballotsTimelineListSecondDay", voteTimeListPreviousYearStringsSorted);
+        model.addAttribute("ballotsTimelineListFirstYear", voteTimeListCurrentYearStringsSorted);
+        model.addAttribute("ballotsTimelineListSecondYear", voteTimeListPreviousYearStringsSorted);
         model.addAttribute("dateOfVoteFromBackend", dateOfVoteFromBackend);
         model.addAttribute("totalBallotsCastedForSection",totalBallotsCastedForSection);
         model.addAttribute("pieChartData", pieChartData);
         return "../static/bar-charts";
     }
+
+
+
+
+
+
+
+    // Security
+
+//
+//    @GetMapping("/admin")
+//    public String getAdminPage() {
+//        return "../static/admin";
+//    }
+
 }

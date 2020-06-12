@@ -518,7 +518,8 @@
                                         <br>
                                         <form method="POST" action="/admin/upload/citizens" enctype="multipart/form-data">
                                             <input type="file" name="file" /><br/><br/>
-                                            <input type="submit" value="Добави списък" />
+<!--                                            <input type="submit" value="Добави списък" />-->
+                                            <input type="button" value="Добави листа" onclick="myFunction()" ></input>
                                         </form>
                                     </div>
                                 </div>
@@ -1080,9 +1081,14 @@
     <script src="js/main.js"></script>
 	<!-- tawk chat JS
 		============================================ -->
-    <script src="js/tawk-chat.js"></script>
+<!--    <script src="js/tawk-chat.js"></script>-->
 
     <script src="js/party-parser.js"></script>
+        <script>
+            function myFunction() {
+                alert("В момента не може да добавите листа.");
+            }
+        </script>
     </div>
 </body>
 

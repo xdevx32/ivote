@@ -1,5 +1,70 @@
 /* Normal desktop :992px. */
+@media (min-width: 1200px) {
+	#chartRowContainer {
+		width:60% !important;
+		float: left;
+		margin-left:20% !important;
+		/*position: static;*/
+		width: 140%;
+	}
+	.breadcomb-wp {
+		margin-top: 0px !important;
+	}
+	/*canvasjs-chart-canvas {*/
+	/*	width:80% !important;*/
+	/*}*/
+	.breadcomb-list {
+
+		height: 110px;
+	}
+
+	.col-lg-6 {
+		position: static;
+		margin-top: -5px;
+		margin-bottom: 10px;
+		width: 100%;
+	}
+
+	.container {
+		width:90%;
+	}
+
+	#basiclinechart {
+		margin-top:400px !important;
+		/*height:500px !important;*/
+
+	}
+	/*.col-lg-12 {*/
+	/*	height: 60px;*/
+	/*}*/
+}
 @media (min-width: 992px) and (max-width: 1169px) {
+	.dash-widget-visits canvas{
+		height:350px;
+		position: static;
+		margin-top: 15px;
+		margin-bottom: 10px;
+		width:100% !important;
+	}
+	.dash-widget-visits canvas{
+		height:450px;
+		width:100% !important;
+		margin-top: 730%;
+	}
+	#chartRowContainer {
+		height: 340px;
+		width:420px;
+		margin-left:11.35%;
+	}
+
+
+	.canvasjs-chart-canvas {
+		margin-left: 10px;
+		margin-bottom: -20px;
+		height: 330px !important;
+		width: 370px !important;
+		position: inherit;
+	}
 	.header-top-area{
 		position:unset;
 	}
@@ -123,7 +188,7 @@
 	}
 }
 
- 
+
 /* Tablet desktop :768px. */
 @media (min-width: 768px) and (max-width: 991px) {
 	.main-menu-area{
@@ -327,12 +392,29 @@
  
 /* small mobile :320px. */
 @media (max-width: 767px) {
+	#chartRowContainer {
+		height: 340px;
+		width:420px;
+		margin-left:11.35%;
+	}
+	#basiclinechart canvas {
+		height:1500px !important;
+
+	}
+
+	.canvasjs-chart-canvas {
+		margin-left: 10px;
+		margin-bottom: -20px;
+		height: 330px !important;
+		width: 370px !important;
+		position: inherit;
+	}
 	.container {width:300px}
 	.main-menu-area{
 		display:none;
 	}
 	.mobile-menu-area{
-		display:block;
+		display:none;
 	}
 	.left-sidebar-pro, .menu-switcher-pro{
 		display:none;
@@ -394,8 +476,40 @@
 	.header-top-menu {
 		text-align: center;
 	}
+	.breadcomb-wp {
+		margin-left:55px;
+	}
+	.col-xs-12 {/*
+		margin-left:30px !important;
+		float:right;
+		width:450px !important;
+		*/
+		margin-left: -60px;
+		margin-bottom: -10px;
+		width: 400px !important;
+		position: inherit;
+	}
+
+	.col-lg-6 col-md-6 col-sm-6 col-xs-12 {
+		margin-left: -60px;
+		margin-bottom: -10px;
+		width: 400px !important;
+		position: inherit;
+	}
+
+	.col-lg-6 col-md-6 col-sm-6 col-xs-12 {
+		margin-left: -60px;
+		margin-bottom: -10px;
+		width: 400px !important;
+		position: inherit;
+	}
+	.row {
+		margin-left:0px !important;
+		margin-right:0px !important;
+	}
 	.breadcomb-area {
 		margin-top: 40px;
+		width:100% !important;
 	}
 	.breadcomb-report .tooltip{
 		width:150px;
