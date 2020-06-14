@@ -171,7 +171,11 @@
 							</div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3">
 								<div class="breadcomb-report">
-									<button data-toggle="tooltip" onclick="printBothCharts()" data-placement="left" title="Изтегляне на всички доклади" class="btn"><i class="notika-icon notika-sent"></i></button>
+                                    <form th:action="@{/barchart}" th:object="${dateContainer}">
+                                        <label>Дата: </label><input type="datetime-local" th:field="*{dateTime}"/>
+                                        <input type="submit" value="Провери данни за избраната година"/>
+                                    </form>
+                                    <button data-toggle="tooltip" onclick="printBothCharts()" data-placement="left" title="Изтегляне на всички доклади" class="btn"><i class="notika-icon notika-sent"></i></button>
 								</div>
 							</div>
 						</div>
@@ -182,6 +186,9 @@
 	</div>
 	<!-- Breadcomb area End-->
     <!-- Pie Chart Area Start-->
+
+
+
     <div class="row" id="chartRowContainer" style="position: static;">
         <div id="chartContainer"></div>
     </div>
@@ -293,7 +300,7 @@
         var PCD = [[${pieChartData}]];
         var dateOfVote = [[${dateOfVoteFromBackend}]];
         var pieChartData = [];
-        console.log("hey");
+
         var importedInlineScriptForBarCharts = document.createElement('script');
         var importedPieChartScript = document.createElement('script');
         importedInlineScriptForBarCharts.src = 'js/charts/customCharts.js';

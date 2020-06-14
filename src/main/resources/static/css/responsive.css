@@ -414,7 +414,7 @@
 		display:none;
 	}
 	.mobile-menu-area{
-		display:none;
+		display:block;
 	}
 	.left-sidebar-pro, .menu-switcher-pro{
 		display:none;

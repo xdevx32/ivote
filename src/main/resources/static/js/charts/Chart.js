@@ -16,6 +16,11 @@ if ($(window).innerWidth() < 400) {
 	canvas.height = 700;
 	var canvas2 = document.getElementById("barchart1");
 	canvas2.height = 400;
+} else if($(window).innerWidth() > 400 < 900) {
+	var canvas = document.getElementById("basiclinechart");
+	canvas.height = 200;
+	var canvas2 = document.getElementById("barchart1");
+	canvas2.height = 200;
 } else {
 	var canvas = document.getElementById("basiclinechart");
 	canvas.height = 140;

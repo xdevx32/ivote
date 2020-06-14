@@ -57,17 +57,48 @@
     /*  1.  Basic Line Chart
     /*----------------------------------------*/
     var ctx = document.getElementById("basiclinechart");
-    // if(ballotsTimelineListFirstYear.length == null) {
-        ballotsTimelineListFirstYear = [16, 344, 445, 442, 155, 820, 433, 20, 150, 150, 3, 22];
-    // }
+    if(ballotsTimelineListFirstYear.length == null) {
+        ballotsTimelineListFirstYear = [
+            16, 344, 445, 442, 155, 820, 433, 20, 150,
+            150, 3, 22,12,12,24,5,6,7,8,4,3,2,23,42
+        ];
+    }
 
-    // if(ballotsTimelineListSecondYear.length == null) {
-        ballotsTimelineListSecondYear = [12, 34, 45, 42, 100, 80, 43, 200, 150, 300, 500, 321];
-    // }
+    if(ballotsTimelineListSecondYear.length == null) {
+        ballotsTimelineListSecondYear = [
+            12, 34, 45, 42, 100, 80, 43, 200, 150, 300, 500, 321,
+            12, 34, 55, 22, 100, 44, 43, 200, 150, 123, 500, 321
+        ];
+    }
     var basiclinechart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ["9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"],
+            labels: [
+                "1:00",
+                "2:00",
+                "3:00",
+                "4:00",
+                "5:00",
+                "6:00",
+                "7:00",
+                "8:00",
+                "9:00",
+                "10:00",
+                "11:00",
+                "12:00",
+                "13:00",
+                "14:00",
+                "15:00",
+                "16:00",
+                "17:00",
+                "18:00",
+                "19:00",
+                "20:00",
+                "21:00",
+                "22:00",
+                "23:00",
+                "24:00"
+            ],
             datasets: [{
                 label: "Гласове за текущата година.",
                 fill: false,

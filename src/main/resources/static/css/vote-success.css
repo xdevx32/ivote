@@ -344,7 +344,7 @@ body .murica:before {
 @media (min-width: 200px) {
     body {
         padding-top: 10px;
-        margin-bottom:30px
+        margin-bottom:30px;
         margin-right: 10px;
         transform: scale(1);
     }

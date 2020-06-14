@@ -3,7 +3,6 @@ package com.nbu.evote.controller;
 import com.nbu.evote.entity.Ballot;
 import com.nbu.evote.entity.Citizen;
 import com.nbu.evote.entity.Party;
-import com.nbu.evote.entity.PartyMember;
 import com.nbu.evote.service.BallotService;
 import com.nbu.evote.service.CitizenService;
 import com.nbu.evote.service.PartyMemberService;
@@ -17,12 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import static java.util.stream.Collectors.toList;
 
@@ -50,12 +47,12 @@ public class WebAppController {
     Citizen currentCitizen;
 
     @Autowired
-    public WebAppController(Environment environment){
+    public WebAppController(Environment environment) {
         appMode = environment.getProperty("app-mode");
     }
 
-    @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST} )
-    public String index(Model model,  @ModelAttribute Party party){
+    @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
+    public String index(Model model, @ModelAttribute Party party) {
         model.addAttribute("datetime", new Date());
         model.addAttribute("username", "Acho");
         model.addAttribute("mode", appMode);
@@ -65,14 +62,14 @@ public class WebAppController {
 
         parties.sort(Comparator.comparing(Party::getNumber));
 //        model.addAttribute("party", party);
-        model.addAttribute("parties" , parties);
+        model.addAttribute("parties", parties);
         clickedParty = party;
 
         return "../static/index-bs";
     }
 
 
-    @RequestMapping(value = "/party-info-page", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST} )
+    @RequestMapping(value = "/party-info-page", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
     public String setClickedParty(Model model, @ModelAttribute Party party) {
         party = partyService.getParty(party.getId());
         clickedParty = party;
@@ -81,16 +78,26 @@ public class WebAppController {
     }
 
     @RequestMapping("/admin")
-    public String admin(Model model){
+    public String admin(Model model) {
         model.addAttribute("datetime", new Date());
         model.addAttribute("username", "Acho");
         model.addAttribute("mode", appMode);
 
+        Integer totalBallotsCount = (int) ballotService.getBallots().stream()
+                .count();
+
+        Integer emptyBallotsCount = (int) ballotService.getBallots().stream()
+                .filter(ballot -> ballot.getParty().getNumber().equals(String.valueOf(0)))
+                .count();
+
+
+        model.addAttribute("totalBallotsCount", totalBallotsCount);
+        model.addAttribute("emptyBallotsCount", emptyBallotsCount);
         return "../static/admin";
     }
 
-    @RequestMapping(value = "/vote", method= RequestMethod.GET)
-    public String vote(Model model, Citizen citizen){
+    @RequestMapping(value = "/vote", method = RequestMethod.GET)
+    public String vote(Model model, Citizen citizen) {
 
         citizen = new Citizen();
 
@@ -98,13 +105,13 @@ public class WebAppController {
     }
 
 
-    @RequestMapping(value = "vote-validated", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST} )
+    @RequestMapping(value = "vote-validated", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
     public String detailRefresh(Model model, Citizen citizen) {
 
         ArrayList<Party> parties = new ArrayList<>();
         parties = partyService.getAllParties();
         Citizen real_citizen = new Citizen();
-        if(citizen != null) {
+        if (citizen != null) {
             real_citizen = this.citizenService.getCitizenByUniqueVoteIdAndEGN(citizen.getUniqueVoteId(), citizen.getEGN());
         }
         if (real_citizen.getHasVoted()) {
@@ -112,7 +119,7 @@ public class WebAppController {
         }
 
         Party party = new Party();
-        model.addAttribute("parties" , parties);
+        model.addAttribute("parties", parties);
         model.addAttribute("party", party);
         model.addAttribute("citizen", real_citizen);
         currentCitizen = real_citizen;
@@ -123,7 +130,7 @@ public class WebAppController {
 
 
     @RequestMapping(method = RequestMethod.POST, value = "vote-success")
-    public String voteSuccess(Model model, @ModelAttribute Party party){
+    public String voteSuccess(Model model, @ModelAttribute Party party) {
         party = partyService.getParty(party.getId());
         selectedParty = party;
         model.addAttribute("party", party);
@@ -145,7 +152,7 @@ public class WebAppController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "vote-successs")
-    public String voteSuccesss(Model model, @ModelAttribute Party party){
+    public String voteSuccesss(Model model, @ModelAttribute Party party) {
 
         model.addAttribute("party", selectedParty);
 
@@ -170,11 +177,10 @@ public class WebAppController {
         //LocalDate dateToCheckFor = model.getAttribute("datePickerValue");
 
 
-
         List<Ballot> ballotsList = new ArrayList<>();
         try {
             ballotsList = ballotService.getBallots();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Error with Ballots in the database. Non existing ones. Fix database!");
             e.printStackTrace();
         }
@@ -245,17 +251,17 @@ public class WebAppController {
 //                .concat(heads.stream(), tails.stream())
 //                .collect(toList());
         /*
-        *
-        *
-        *
-        *
+         *
+         *
+         *
+         *
          */
 
         //Hardcoded values of section days
         //TODO!!!!!!! Discuss!!!!
         int currentYear = passedYear;
 
-        int lastYear = passedYear-1;
+        int lastYear = passedYear - 1;
 
 
         List<LocalTime> voteTimeListFirstDay = ballotsList.stream()
@@ -266,7 +272,7 @@ public class WebAppController {
 
         List<String> voteTimeListFirstDayStrings = voteTimeListFirstDay.stream()
                 .map(LocalTime::toString)
-                .map(str -> str.substring(0,2))
+                .map(str -> str.substring(0, 2))
                 .collect(toList());
 
         List<LocalTime> voteTimeListSecondDay = ballotsList.stream()
@@ -276,7 +282,7 @@ public class WebAppController {
 
         List<String> voteTimeListSecondDayStrings = voteTimeListSecondDay.stream()
                 .map(LocalTime::toString)
-                .map(str -> str.substring(0,2))
+                .map(str -> str.substring(0, 2))
                 .collect(toList());
 
 
@@ -289,9 +295,9 @@ public class WebAppController {
         HashMap<String, Integer> voteCountForCurrentYearInHoursFormatted = new HashMap<>();
         HashMap<String, Integer> voteCountForPreviousYearInHoursFormatted = new HashMap<>();
 
-        for (int i=1;i<=24;i++) {
-            voteCountForPreviousYearInHoursFormatted.put(String.valueOf(i),0);
-            voteCountForCurrentYearInHoursFormatted.put(String.valueOf(i),0);
+        for (int i = 1; i <= 24; i++) {
+            voteCountForPreviousYearInHoursFormatted.put(String.valueOf(i), 0);
+            voteCountForCurrentYearInHoursFormatted.put(String.valueOf(i), 0);
         }
 
         for (String str : voteTimeListFirstDayStrings) {
@@ -300,7 +306,7 @@ public class WebAppController {
 
         HashMap<String, String> map = new HashMap<String, String>();
 
-        voteCountForCurrentYearInHoursFormatted.put("09", voteCountForCurrentYearInHoursFormatted.remove("9"));
+//        voteCountForCurrentYearInHoursFormatted.put("09", voteCountForCurrentYearInHoursFormatted.remove("9"));
         // TreeMap to store values of HashMap
         TreeMap<String, Integer> sorted = new TreeMap<>();
         // Copy all data from hashMap into TreeMap
@@ -309,7 +315,7 @@ public class WebAppController {
 
         List<String> voteTimeListCurrentYearStringsSorted = new ArrayList<>();
         ArrayList<Integer> listOfValues = new ArrayList<Integer>(values);
-        for (Integer value: listOfValues) {
+        for (Integer value : listOfValues) {
             voteTimeListCurrentYearStringsSorted.add(String.valueOf(value));
         }
 
@@ -319,7 +325,7 @@ public class WebAppController {
 
         map = new HashMap<String, String>();
 
-        voteCountForPreviousYearInHoursFormatted.put("09", voteCountForPreviousYearInHoursFormatted.remove("9"));
+//        voteCountForPreviousYearInHoursFormatted.put("09", voteCountForPreviousYearInHoursFormatted.remove("9"));
         // TreeMap to store values of HashMap
         sorted = new TreeMap<>();
         // Copy all data from hashMap into TreeMap
@@ -328,7 +334,7 @@ public class WebAppController {
 
         List<String> voteTimeListPreviousYearStringsSorted = new ArrayList<>();
         listOfValues = new ArrayList<Integer>(values);
-        for (Integer value: listOfValues) {
+        for (Integer value : listOfValues) {
             voteTimeListPreviousYearStringsSorted.add(String.valueOf(value));
         }
 
@@ -361,34 +367,49 @@ public class WebAppController {
 
         // Създаване на абривиатури за имената, понеже на страницата излизат
         // неправилно и разгъват таблицата прекалено много
-        partyNamesList.replaceAll(s ->
-                s.length() > 4 ? s.substring(0, 4) : s
-        );
+//        partyNamesList.replaceAll(s ->
+//                for(int i=s.length()-1;i>=0;i--) {
+//                    if(Character.isUpperCase(s.charAt(i))) {
+//                        return i;
+//                }
+//        }
+//        );
+
+        List<String> newPartyShortNames = new ArrayList<>();
+
+        for (String s : partyNamesList) {
+
+            int index = 0;
+            String abreviature = "";
+            for (int i = 0; i < s.length() - 1; i++) {
+                if (s.length() < 5 ) {
+                    abreviature = s;
+                    continue;
+                }
+                if ( Character.isUpperCase(s.charAt(i))) {
+                    abreviature += s.charAt(i);
+                }
+            }
+
+            newPartyShortNames.add(abreviature);
+            index++;
+        }
+//        AtomicReference<AtomicReferenceArray<String>> splitted = new AtomicReference<>(new AtomicReferenceArray<>(new String[0]));
+//        //                        partyName.indexOf(" ")
+//        for (String partyName : partyNamesList) {
+//             splitted.set(new AtomicReferenceArray<>(partyName.split("^/d ")));
+//        }
 
         System.out.println(partyNamesList);
 
-        model.addAttribute("partiesNamesList", partyNamesList);
+        model.addAttribute("partiesNamesList", newPartyShortNames);
         model.addAttribute("ballotsCountList", partyBallotsCountList);
         model.addAttribute("ballotsTimelineListFirstYear", voteTimeListPreviousYearStringsSorted); // SWAPPED VALUES BECAUSE TOO LAZY
         model.addAttribute("ballotsTimelineListSecondYear", voteTimeListCurrentYearStringsSorted);// SWAPPED VALUES BECAUSE TOO LAZY
         model.addAttribute("dateOfVoteFromBackend", dateOfVoteFromBackend);
-        model.addAttribute("totalBallotsCastedForSection",totalBallotsCastedForSection);
+        model.addAttribute("totalBallotsCastedForSection", totalBallotsCastedForSection);
         model.addAttribute("pieChartData", pieChartData);
         return "../static/bar-charts";
     }
-
-
-
-
-
-
-
-    // Security
-
-//
-//    @GetMapping("/admin")
-//    public String getAdminPage() {
-//        return "../static/admin";
-//    }
 
 }

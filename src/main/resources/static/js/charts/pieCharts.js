@@ -6,7 +6,7 @@ window.onload = function () {
 $.each(PCD, function(key, value) {
     pieChartData.push({y: (key/totalVoteCount) * 100, name: value,exploded:true});
 });
-if (pieChartData.length < 4) {
+if (pieChartData.length < 2) {
 	pieChartData = [
 		{ y: 10, name: "ГЕРБ", exploded: true },
 		{ y: 21, name: "БСП" },
