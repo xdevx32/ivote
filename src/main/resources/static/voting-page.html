@@ -49,17 +49,12 @@
         </div>
     </nav>
 
-
-    <!-- Masthead -->
     <!--Adding modal -->
-    <div id="master-modal" th:if="${citizen.id == 0 && citizen.EGN == null && citizen.uniqueVoteId == null}" >
-        <h2 align="center">Въведете данните:</h2>
+    <div id="master-modal" style="margin-top: 15%;" th:if="${citizen.id == 0 && citizen.EGN == null && citizen.uniqueVoteId == null}" >
+        <h2 align="center" style="color:white;">Въведете данните:</h2>
         <p th:text="${msg}" style=""></p>
         <!-- Trigger/Open The Modal -->
-        <div align="center">
-            <button id="myBtn">Въведете данните си като гражданин</button>
-            <br /> <br />
-        </div>
+
         <!-- The Modal -->
         <div id="myModal" class="modal">
             <!-- Modal content -->
@@ -89,6 +84,16 @@
         </div>
     </div>
     <!-- End adding modal -->
+
+    <div align="center" style="margin-top:200px;">
+        <button id="myBtn" class="btn btn-primary btn-xl js-scroll-trigger" style="     margin-top: -24%;   height: 33px;
+    padding-top: 7px;">
+            Въведете данните си като гражданин
+        </button>
+
+    </div>
+    <!-- Masthead -->
+
      <header class="masthead" th:if="${citizen.id != 0 && citizen.EGN != null && citizen.uniqueVoteId != null}">
         <form action="#" th:action="@{/vote-success}" th:object="${party}" method="post">
             <div class="container h-100">
@@ -106,7 +111,7 @@
 
                     <div class="col-lg-8 align-self-baseline">
 
-                        <button type="submit"  class="btn btn-primary btn-xl js-scroll-trigger">Гласувай</button>
+                        <button type="submit" class="btn btn-primary btn-xl js-scroll-trigger">Гласувай</button>
                     </div>
                 </div>
             </div>
