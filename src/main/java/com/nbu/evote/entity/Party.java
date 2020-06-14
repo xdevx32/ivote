@@ -83,6 +83,17 @@ public class Party {
         return this.ballots.size();
     }
 
+    public Integer getBallotsCountForSpecificYear(int year) {
+        int size = 0;
+        for(Ballot b : this.ballots) {
+            if(b.getDate().getYear() == year) {
+                size ++;
+            }
+        }
+
+        return size;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }

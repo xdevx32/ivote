@@ -16,9 +16,7 @@ public class BallotService {
 
     public List<Ballot> getBallots() {
         List<Ballot> ballotList = new ArrayList<>();
-        if (ballotList.size() != 0) {
-            ballotRepository.findAll().forEach(ballot -> ballotList.add(ballot));
-        }
+        ballotRepository.findAll().forEach(ballot -> ballotList.add(ballot));
         return ballotList;
     }
 

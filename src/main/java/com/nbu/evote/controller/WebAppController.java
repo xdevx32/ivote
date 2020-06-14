@@ -8,6 +8,7 @@ import com.nbu.evote.service.BallotService;
 import com.nbu.evote.service.CitizenService;
 import com.nbu.evote.service.PartyMemberService;
 import com.nbu.evote.service.PartyService;
+import com.nbu.evote.utility.DateContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.chrono.ChronoLocalDate;
 import java.util.*;
@@ -105,12 +107,16 @@ public class WebAppController {
         if(citizen != null) {
             real_citizen = this.citizenService.getCitizenByUniqueVoteIdAndEGN(citizen.getUniqueVoteId(), citizen.getEGN());
         }
+        if (real_citizen.getHasVoted()) {
+            return "../static/already-voted";
+        }
 
         Party party = new Party();
         model.addAttribute("parties" , parties);
         model.addAttribute("party", party);
         model.addAttribute("citizen", real_citizen);
         currentCitizen = real_citizen;
+
 
         return "../static/voting-page";
     }
@@ -126,6 +132,7 @@ public class WebAppController {
 
         ballot.setParty(party);
         ballot.setCitizen(currentCitizen);
+        currentCitizen.setHasVoted(true);
         ballot.setDate(LocalDate.now().plusDays(1));
         ballot.setTime(LocalTime.now().plusHours(2));
         ballotService.addBallot(ballot);
@@ -134,7 +141,6 @@ public class WebAppController {
         currentCitizen.setBallot(ballot);
         party.addBallot(ballot);
         citizenService.updateCitizen(currentCitizen);
-
         return "../static/vote-success-animation";
     }
 
@@ -157,19 +163,13 @@ public class WebAppController {
     }
 
     @RequestMapping("/barchart")
-    public String barChart(Model model) {
+    public String barChart(Model model, final DateContainer dateContainer) {
         model.addAttribute("datetime", new Date());
         model.addAttribute("mode", appMode);
-        ArrayList<Party> partiesList = partyService.getAllParties();
-        List<String> partyNamesList = partiesList.stream()
-                .sorted(Comparator.comparing(Party::getBallotsCount, Comparator.reverseOrder()))
-                .map(Party::getName)
-                .collect(toList());
 
-        List<Integer> partyBallotsCountList = partiesList.stream()
-                .map(Party::getBallotsCount)
-                .sorted(Comparator.reverseOrder())
-                .collect(toList());
+        //LocalDate dateToCheckFor = model.getAttribute("datePickerValue");
+
+
 
         List<Ballot> ballotsList = new ArrayList<>();
         try {
@@ -179,56 +179,83 @@ public class WebAppController {
             e.printStackTrace();
         }
 
+        int passedYear = 0;
 
-        /**
-         *
-         *
-         *  TODO!!! DISCUSS IF NEEDED - REMOVE FOR """PRODUCTION"""" THINK!!!!
-         *
-         *  THIS PIECE OF CODE SETS ALL BALLOT DATES TO
-         *  TODAY'S DATE. ONLY IN OBJECTS BUT DOES NOT WRITE TO
-         *  DATABASE. SO IF YOU WANT TO REMOVE IT
-         *  JUST REMOVE THE STREAM OPERATION BELOW.
-         *  THAT WAY , WE CAN VISUALISE MORE DATA
-         *  IN ADMIN SECTION. THIS CASE IS ABSOLUTELY UNREALISTIC AND
-         *  MUST NOT BE SHIPPED!!!
-         *
-         *
-         *
-         *  ONLY TESTING AND DEVELOPING!!!!
-         *
-         */
+        if (dateContainer.getDateTime() == null) {
+            passedYear = LocalDate.now().getYear();
+        } else {
+            passedYear = dateContainer.getDateTime().getYear();
+        }
 
-        List<Ballot> heads = new ArrayList<>();
-        List<Ballot> tails = new ArrayList<>();
-
-        heads = ballotsList.stream()
-                .filter(i -> i.getId() % 2 == 0)
+        ArrayList<Party> partiesList = partyService.getAllParties();
+        List<String> partyNamesList = partiesList.stream()
+                .sorted(Comparator.comparing(Party::getBallotsCount, Comparator.reverseOrder()))
+                .map(Party::getName)
                 .collect(toList());
 
-        heads.stream().forEach(f -> f.setDate(LocalDate.now()));
-
-        tails = ballotsList.stream()
-                .filter(i -> i.getId() % 2 != 0)
+        int finalPassedYear1 = passedYear;
+        List<Integer> partyBallotsCountList = partiesList.stream()
+                .map(p -> p.getBallotsCountForSpecificYear(finalPassedYear1))
+                .sorted(Comparator.reverseOrder())
+                .collect(toList());
+        // Getting the years of all ballots
+        int finalPassedYear = passedYear;
+        List<Ballot> ballotsForSpecificYear = ballotsList.stream()
+                .filter(ballot -> ballot.getDate().getYear() == finalPassedYear)
                 .collect(toList());
 
-        tails.stream().forEach(f -> f.setDate(LocalDate.now().minusYears(1)));
-
-        //Concatenating the two newly modified streams.
-
-        ballotsList = Stream
-                .concat(heads.stream(), tails.stream())
-                .collect(toList());
+//
+//        /**
+//         *
+//         *
+//         *  TODO!!! DISCUSS IF NEEDED - REMOVE FOR """PRODUCTION"""" THINK!!!!
+//         *
+//         *  THIS PIECE OF CODE SETS ALL BALLOT DATES TO
+//         *  TODAY'S DATE. ONLY IN OBJECTS BUT DOES NOT WRITE TO
+//         *  DATABASE. SO IF YOU WANT TO REMOVE IT
+//         *  JUST REMOVE THE STREAM OPERATION BELOW.
+//         *  THAT WAY , WE CAN VISUALISE MORE DATA
+//         *  IN ADMIN SECTION. THIS CASE IS ABSOLUTELY UNREALISTIC AND
+//         *  MUST NOT BE SHIPPED!!!
+//         *
+//         *
+//         *
+//         *  ONLY TESTING AND DEVELOPING!!!!
+//         *
+//         */
+//
+//        List<Ballot> heads = new ArrayList<>();
+//        List<Ballot> tails = new ArrayList<>();
+//
+//        heads = ballotsList.stream()
+//                .filter(i -> i.getId() % 2 == 0)
+//                .collect(toList());
+//
+//        heads.stream().forEach(f -> f.setDate(LocalDate.now()));
+//
+//        tails = ballotsList.stream()
+//                .filter(i -> i.getId() % 2 != 0)
+//                .collect(toList());
+//
+//        tails.stream().forEach(f -> f.setDate(LocalDate.now().minusYears(1)));
+//
+//        //Concatenating the two newly modified streams.
+//
+//        ballotsList = Stream
+//                .concat(heads.stream(), tails.stream())
+//                .collect(toList());
         /*
         *
         *
         *
         *
          */
+
         //Hardcoded values of section days
         //TODO!!!!!!! Discuss!!!!
-        int currentYear = LocalDate.now().getYear();
-        int lastYear = LocalDate.now().minusYears(1).getYear();
+        int currentYear = passedYear;
+
+        int lastYear = passedYear-1;
 
 
         List<LocalTime> voteTimeListFirstDay = ballotsList.stream()
@@ -239,6 +266,7 @@ public class WebAppController {
 
         List<String> voteTimeListFirstDayStrings = voteTimeListFirstDay.stream()
                 .map(LocalTime::toString)
+                .map(str -> str.substring(0,2))
                 .collect(toList());
 
         List<LocalTime> voteTimeListSecondDay = ballotsList.stream()
@@ -246,9 +274,9 @@ public class WebAppController {
                 .map(Ballot::getTime)
                 .collect(toList());
 
-
         List<String> voteTimeListSecondDayStrings = voteTimeListSecondDay.stream()
                 .map(LocalTime::toString)
+                .map(str -> str.substring(0,2))
                 .collect(toList());
 
 
@@ -259,64 +287,16 @@ public class WebAppController {
         // data: [16, 344, 445, 442, 155, 820, 433, 20, 150, 150, 3]
 
         HashMap<String, Integer> voteCountForCurrentYearInHoursFormatted = new HashMap<>();
-        voteCountForCurrentYearInHoursFormatted.put("9",0);
-        voteCountForCurrentYearInHoursFormatted.put("10",0);
-        voteCountForCurrentYearInHoursFormatted.put("11",0);
-        voteCountForCurrentYearInHoursFormatted.put("12",0);
-        voteCountForCurrentYearInHoursFormatted.put("13",0);
-        voteCountForCurrentYearInHoursFormatted.put("14",0);
-        voteCountForCurrentYearInHoursFormatted.put("15",0);
-        voteCountForCurrentYearInHoursFormatted.put("16",0);
-        voteCountForCurrentYearInHoursFormatted.put("17",0);
-        voteCountForCurrentYearInHoursFormatted.put("18",0);
-        voteCountForCurrentYearInHoursFormatted.put("19",0);
-        voteCountForCurrentYearInHoursFormatted.put("20",0);
-        voteCountForCurrentYearInHoursFormatted.put("21",0);
-
         HashMap<String, Integer> voteCountForPreviousYearInHoursFormatted = new HashMap<>();
-        voteCountForPreviousYearInHoursFormatted.put("9",0);
-        voteCountForPreviousYearInHoursFormatted.put("10",0);
-        voteCountForPreviousYearInHoursFormatted.put("11",0);
-        voteCountForPreviousYearInHoursFormatted.put("12",0);
-        voteCountForPreviousYearInHoursFormatted.put("13",0);
-        voteCountForPreviousYearInHoursFormatted.put("14",0);
-        voteCountForPreviousYearInHoursFormatted.put("15",0);
-        voteCountForPreviousYearInHoursFormatted.put("16",0);
-        voteCountForPreviousYearInHoursFormatted.put("17",0);
-        voteCountForPreviousYearInHoursFormatted.put("18",0);
-        voteCountForPreviousYearInHoursFormatted.put("19",0);
-        voteCountForPreviousYearInHoursFormatted.put("20",0);
-        voteCountForPreviousYearInHoursFormatted.put("21",0);
 
-        Integer startHour = 9;
-
-
-        for ( int index=0 ; index<voteTimeListFirstDayStrings.size() ; index++) {
-
-            if (voteTimeListFirstDay.get(index).getHour() < startHour) {
-
-                Integer finalStartHour = startHour;
-                Integer numberOfVotesForExactHour = voteTimeListFirstDay.stream()
-                        .filter(p -> p.getHour() == finalStartHour)
-                        .map(LocalTime::getHour)
-                        .reduce(0, (a, b) -> a + b)/startHour;
-
-                if(startHour < 10){
-                    String stringToPut = "0".concat(String.valueOf(startHour));
-                    voteCountForCurrentYearInHoursFormatted.put(stringToPut , numberOfVotesForExactHour);
-
-                } else {
-                    voteCountForCurrentYearInHoursFormatted.put(String.valueOf(startHour),numberOfVotesForExactHour);
-                }
-            }
-
-//            if (startHour == 13) {
-//                startHour += 2;
-//            } else {
-                startHour++;
-//            }
+        for (int i=1;i<=24;i++) {
+            voteCountForPreviousYearInHoursFormatted.put(String.valueOf(i),0);
+            voteCountForCurrentYearInHoursFormatted.put(String.valueOf(i),0);
         }
 
+        for (String str : voteTimeListFirstDayStrings) {
+            voteCountForPreviousYearInHoursFormatted.merge(str, 1, Integer::sum);
+        }
 
         HashMap<String, String> map = new HashMap<String, String>();
 
@@ -333,37 +313,9 @@ public class WebAppController {
             voteTimeListCurrentYearStringsSorted.add(String.valueOf(value));
         }
 
-
-
-        // Previous year
-        startHour = 9;
-
-        for ( int index=0 ; index<voteTimeListSecondDayStrings.size() ; index++) {
-
-            if (voteTimeListSecondDay.get(index).getHour() > startHour) {
-
-                Integer finalStartHour = startHour;
-                Integer numberOfVotesForExactHour = voteTimeListSecondDay.stream()
-                        .filter(p -> p.getHour() == finalStartHour)
-                        .map(LocalTime::getHour)
-                        .reduce(0, (a, b) -> a + b)/startHour;
-
-                if(startHour < 10){
-                    String stringToPut = "0".concat(String.valueOf(startHour));
-                    voteCountForPreviousYearInHoursFormatted.put(stringToPut , numberOfVotesForExactHour);
-
-                } else {
-                    voteCountForPreviousYearInHoursFormatted.put(String.valueOf(startHour),numberOfVotesForExactHour);
-                }
-            }
-
-//            if (startHour == 13) {
-//                startHour += 2;
-//            } else {
-                startHour++;
-//            }
+        for (String str : voteTimeListSecondDayStrings) {
+            voteCountForCurrentYearInHoursFormatted.merge(str, 1, Integer::sum);
         }
-
 
         map = new HashMap<String, String>();
 
@@ -415,24 +367,10 @@ public class WebAppController {
 
         System.out.println(partyNamesList);
 
-
-
-
-
-
-        // Testing the data
-        System.out.println(partyBallotsCountList);
-        System.out.println(voteTimeListCurrentYearStringsSorted);
-        System.out.println(voteTimeListPreviousYearStringsSorted);
-        System.out.println(dateOfVoteFromBackend);
-        System.out.println(totalBallotsCastedForSection);
-        System.out.println(pieChartData);
-
-
         model.addAttribute("partiesNamesList", partyNamesList);
         model.addAttribute("ballotsCountList", partyBallotsCountList);
-        model.addAttribute("ballotsTimelineListFirstYear", voteTimeListCurrentYearStringsSorted);
-        model.addAttribute("ballotsTimelineListSecondYear", voteTimeListPreviousYearStringsSorted);
+        model.addAttribute("ballotsTimelineListFirstYear", voteTimeListPreviousYearStringsSorted); // SWAPPED VALUES BECAUSE TOO LAZY
+        model.addAttribute("ballotsTimelineListSecondYear", voteTimeListCurrentYearStringsSorted);// SWAPPED VALUES BECAUSE TOO LAZY
         model.addAttribute("dateOfVoteFromBackend", dateOfVoteFromBackend);
         model.addAttribute("totalBallotsCastedForSection",totalBallotsCastedForSection);
         model.addAttribute("pieChartData", pieChartData);
