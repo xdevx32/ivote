@@ -26,6 +26,7 @@ public class Citizen {
 
     private String uniqueVoteId;
 
+    @Nullable
     private Boolean hasVoted;
 
 

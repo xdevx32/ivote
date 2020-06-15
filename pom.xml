@@ -11,7 +11,7 @@
 	<groupId>com.example.evote.prototype</groupId>
 	<artifactId>demo.evote</artifactId>
 	<packaging>war</packaging>
-	<version>ivote-system-WAR-3.6</version>
+	<version>ivote-system-WAR-4.5</version>
 	<name>demo.evote</name>
 	<url>http://ivote-bg.com</url>
 	<description>Diploma work</description>

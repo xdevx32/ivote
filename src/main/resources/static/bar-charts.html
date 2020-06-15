@@ -172,7 +172,8 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3">
 								<div class="breadcomb-report">
                                     <form th:action="@{/barchart}" th:object="${dateContainer}">
-                                        <label>Дата: </label><input type="datetime-local" th:field="*{dateTime}"/>
+                                        <select id="yearselect" onclick="loadYearsSelector()" th:field="*{year}"></select>
+<!--                                        <label>Дата: </label><input type="datetime-local" th:field="*{dateTime}"/>-->
                                         <input type="submit" value="Провери данни за избраната година"/>
                                     </form>
                                     <button data-toggle="tooltip" onclick="printBothCharts()" data-placement="left" title="Изтегляне на всички доклади" class="btn"><i class="notika-icon notika-sent"></i></button>
@@ -186,8 +187,6 @@
 	</div>
 	<!-- Breadcomb area End-->
     <!-- Pie Chart Area Start-->
-
-
 
     <div class="row" id="chartRowContainer" style="position: static;">
         <div id="chartContainer"></div>
@@ -307,6 +306,21 @@
         importedPieChartScript.src = 'js/charts/pieCharts.js';
         document.head.appendChild(importedInlineScriptForBarCharts);
         document.head.appendChild(importedPieChartScript);
+
+
+        function loadYearsSelector()
+        {
+            var startyear = 2020;
+            var endyear = 2000;
+            for (var i = startyear;i>=endyear;i--){
+                node=document.createElement("Option");
+                textnode=document.createTextNode(i);
+                node.appendChild(textnode);
+                document.getElementById("yearselect").appendChild(node);
+            }
+        }
+        loadYearsSelector();
+
     /*]]>*/
 
     </script>

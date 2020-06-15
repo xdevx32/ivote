@@ -8,15 +8,14 @@ public class DateContainer {
 
     private String name;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime dateTime;
+    private String year;
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public String getYear() {
+        return year;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public String getName() {

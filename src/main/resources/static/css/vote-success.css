@@ -369,3 +369,16 @@ body .murica:before {
         transform: scale(1);
     }
 }
+
+@media (max-width: 650px) {
+
+  #animationBody {
+    transform: scale(0.7);
+  }
+}
+@media (max-width: 400px) {
+
+  #animationBody {
+    transform: scale(0.5);
+  }
+}

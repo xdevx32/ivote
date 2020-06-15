@@ -12,3 +12,18 @@
     min-height: 85px;
     text-align: center;
 }
+@media (max-width: 767px) and (min-width: 200px) {
+    .master-modal {
+        margin-top: 0px !important;
+    }
+    #myBtn {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 342px) {
+    #myBtn {
+        font-size: 9px !important;
+        height:38px !important;
+    }
+}

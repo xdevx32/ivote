@@ -20,6 +20,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -171,6 +172,7 @@ public class WebAppController {
         return "../static/normal-table-citizens";
     }
 
+
     @RequestMapping("/barchart")
     public String barChart(Model model, final DateContainer dateContainer) {
         model.addAttribute("datetime", new Date());
@@ -189,10 +191,10 @@ public class WebAppController {
 
         int passedYear = 0;
 
-        if (dateContainer.getDateTime() == null) {
+        if (dateContainer.getYear() == null) {
             passedYear = LocalDate.now().getYear();
         } else {
-            passedYear = dateContainer.getDateTime().getYear();
+            passedYear = Integer.parseInt(dateContainer.getYear());
         }
 
         ArrayList<Party> partiesList = partyService.getAllParties();
@@ -265,28 +267,19 @@ public class WebAppController {
 
         int lastYear = passedYear - 1;
 
-
-        List<LocalTime> voteTimeListFirstDay = ballotsList.stream()
+        List<String> voteTimeListFirstDayStrings = ballotsList.stream()
                 .filter(b -> b.getDate().getYear() == (currentYear))
-                .map(Ballot::getTime)
-//                .map(Ballot::getTimeString)
-                .collect(toList());
-
-        List<String> voteTimeListFirstDayStrings = voteTimeListFirstDay.stream()
+                .map(t -> t.getTime().plusHours(3))
                 .map(LocalTime::toString)
                 .map(str -> str.substring(0, 2))
                 .collect(toList());
 
-        List<LocalTime> voteTimeListSecondDay = ballotsList.stream()
+        List<String> voteTimeListSecondDayStrings = ballotsList.stream()
                 .filter(b -> b.getDate().getYear() == lastYear)
-                .map(Ballot::getTime)
-                .collect(toList());
-
-        List<String> voteTimeListSecondDayStrings = voteTimeListSecondDay.stream()
+                .map(t -> t.getTime().plusHours(3))
                 .map(LocalTime::toString)
                 .map(str -> str.substring(0, 2))
                 .collect(toList());
-
 
         // Assigning values to list of hours
         // Example
@@ -294,67 +287,107 @@ public class WebAppController {
         // Output list should look like:
         // data: [16, 344, 445, 442, 155, 820, 433, 20, 150, 150, 3]
 
-        HashMap<String, Integer> voteCountForCurrentYearInHoursFormatted = new HashMap<>();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //1 Previous
         HashMap<String, Integer> voteCountForPreviousYearInHoursFormatted = new HashMap<>();
 
+
+        //2 Current
+        HashMap<String, Integer> voteCountForCurrentYearInHoursFormatted = new HashMap<>();
+
+
+        //1 Previous
         for (int i = 1; i <= 24; i++) {
             voteCountForPreviousYearInHoursFormatted.put(String.valueOf(i), 0);
-            voteCountForCurrentYearInHoursFormatted.put(String.valueOf(i), 0);
         }
-
+        //1 Previous
         for (String str : voteTimeListFirstDayStrings) {
             voteCountForPreviousYearInHoursFormatted.merge(str, 1, Integer::sum);
         }
 
-        HashMap<String, String> map = new HashMap<String, String>();
+        //2 Current
+        for (int i = 1; i <= 24; i++) {
+            voteCountForCurrentYearInHoursFormatted.put(String.valueOf(i), 0);
+        }
+        //2 Current
+        for (String str : voteTimeListSecondDayStrings) {
+            voteCountForCurrentYearInHoursFormatted.merge(str, 1, Integer::sum);
+        }
 
-//        voteCountForCurrentYearInHoursFormatted.put("09", voteCountForCurrentYearInHoursFormatted.remove("9"));
-        // TreeMap to store values of HashMap
+        //2 Current
         TreeMap<String, Integer> sorted = new TreeMap<>();
-        // Copy all data from hashMap into TreeMap
         sorted.putAll(voteCountForCurrentYearInHoursFormatted);
         Collection<Integer> values = sorted.values();
-
         List<String> voteTimeListCurrentYearStringsSorted = new ArrayList<>();
         ArrayList<Integer> listOfValues = new ArrayList<Integer>(values);
         for (Integer value : listOfValues) {
             voteTimeListCurrentYearStringsSorted.add(String.valueOf(value));
         }
-
         for (String str : voteTimeListSecondDayStrings) {
             voteCountForCurrentYearInHoursFormatted.merge(str, 1, Integer::sum);
         }
 
-        map = new HashMap<String, String>();
-
-//        voteCountForPreviousYearInHoursFormatted.put("09", voteCountForPreviousYearInHoursFormatted.remove("9"));
-        // TreeMap to store values of HashMap
-        sorted = new TreeMap<>();
-        // Copy all data from hashMap into TreeMap
-        sorted.putAll(voteCountForPreviousYearInHoursFormatted);
-        values = sorted.values();
-
+        //1 Previous
+        TreeMap<String, Integer> sorted2 = new TreeMap<>();
+        sorted2.putAll(voteCountForPreviousYearInHoursFormatted);
+        Collection<Integer> values2 = sorted2.values();
         List<String> voteTimeListPreviousYearStringsSorted = new ArrayList<>();
-        listOfValues = new ArrayList<Integer>(values);
-        for (Integer value : listOfValues) {
+        ArrayList<Integer> listOfValues2 = new ArrayList<Integer>(values2);
+        for (Integer value : listOfValues2) {
             voteTimeListPreviousYearStringsSorted.add(String.valueOf(value));
         }
+        for (String str : voteTimeListFirstDayStrings) {
+            voteCountForPreviousYearInHoursFormatted.merge(str, 1, Integer::sum);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //End second day
         // BUG ABOVE. FIX IT!
-
-
-//
-//        // Adding a Party Member Object
-//        PartyMember boykoBorissov = new PartyMember();
-//
-//        boykoBorissov.setName("Бойко Борисов");
-//        boykoBorissov.setDayOfBirth(LocalDate.of(1959,6,13));
-////        boykoBorissov.setParty(partyService.getPartyByName("ГЕРБ"));
-//        boykoBorissov.setParty(partyService.getParty(38));
-//
-//        partyMemberService.addPartyMember(boykoBorissov);
-//
 
         HashMap<Integer, String> pieChartData = new HashMap<>();
         for (int i = 0; i < partyBallotsCountList.size(); i++) {
@@ -366,16 +399,6 @@ public class WebAppController {
         System.out.println("Total Ballots for section: " + totalBallotsCastedForSection);
         String dateOfVoteFromBackend = String.valueOf(currentYear);
 
-
-        // Създаване на абривиатури за имената, понеже на страницата излизат
-        // неправилно и разгъват таблицата прекалено много
-//        partyNamesList.replaceAll(s ->
-//                for(int i=s.length()-1;i>=0;i--) {
-//                    if(Character.isUpperCase(s.charAt(i))) {
-//                        return i;
-//                }
-//        }
-//        );
 
         List<String> newPartyShortNames = new ArrayList<>();
 
@@ -396,13 +419,7 @@ public class WebAppController {
             newPartyShortNames.add(abreviature);
             index++;
         }
-//        AtomicReference<AtomicReferenceArray<String>> splitted = new AtomicReference<>(new AtomicReferenceArray<>(new String[0]));
-//        //                        partyName.indexOf(" ")
-//        for (String partyName : partyNamesList) {
-//             splitted.set(new AtomicReferenceArray<>(partyName.split("^/d ")));
-//        }
 
-        System.out.println(partyNamesList);
 
         model.addAttribute("partiesNamesList", newPartyShortNames);
         model.addAttribute("ballotsCountList", partyBallotsCountList);
@@ -413,5 +430,4 @@ public class WebAppController {
         model.addAttribute("pieChartData", pieChartData);
         return "../static/bar-charts";
     }
-
 }
