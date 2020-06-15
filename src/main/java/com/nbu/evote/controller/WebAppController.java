@@ -69,9 +69,10 @@ public class WebAppController {
     }
 
 
-    @RequestMapping(value = "/party-info-page", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
-    public String setClickedParty(Model model, @ModelAttribute Party party) {
-        party = partyService.getParty(party.getId());
+    @RequestMapping(value = "/party-info-page/{id}/", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
+    public String setClickedParty(Model model, @ModelAttribute Party party, @PathVariable("id") Integer id) {
+//        party = partyService.getParty(party.getId());
+        party=partyService.getParty(id);
         clickedParty = party;
         model.addAttribute("party", party);
         return "../static/party-info-page";
@@ -95,6 +96,7 @@ public class WebAppController {
         model.addAttribute("emptyBallotsCount", emptyBallotsCount);
         return "../static/admin";
     }
+
 
     @RequestMapping(value = "/vote", method = RequestMethod.GET)
     public String vote(Model model, Citizen citizen) {

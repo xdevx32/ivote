@@ -103,9 +103,14 @@
                         <hr class="divider my-4">
                         <!-- Implement with for loop with the Party data! -->
                         <div id="grid-container-for-partyname" class="grid-container"th:each="party: ${parties}">
-                            <div class="blt-radio-btn grid-item"  th:text="${party.number +'. '+party.name}" ></div>
-                            <input type="radio" th:name="${'radio' + party.number}" class="blt-radio-btn" th:field="*{id}" th:value="${party.id}" style="transform: scale(2);"/>
-                            <label class="css-label" th:for="${'radio' + party.number}"></label>
+<!--                            <div class="blt-radio-btn grid-item"  th:text="${party.number +'. '+party.name}" ></div>-->
+<!--                            <input type="radio" th:name="${'radio' + party.number}" class="blt-radio-btn" th:field="*{id}" th:value="${party.id}" style="transform: scale(2);"/>-->
+<!--                            <label class="css-label" th:for="${'radio' + party.number}"></label>-->
+
+                            <br>
+                            <input style="transform: scale(2);margin-right:2%" th:id="${party.number}" type="radio"  th:field="*{id}" th:value="${party.id}" name="question1">
+                            <label  style="font-size: 25px; color: white; " class="css-label"  th:for="${party.number}" th:text="${party.number +'. '+party.name}" ></label>
+                            <br>
                         </div>
                     </div>
 

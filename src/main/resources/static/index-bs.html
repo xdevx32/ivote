@@ -69,17 +69,16 @@
   <div class="container">
     <h2 class="text-center mt-0">Кандидати за текущата изборна кампания.</h2>
     <hr class="divider my-4">
-    <div class="row" style="margin-left: 27px;">
-          <div class="col-lg-3 col-md-6 text-center" style="margin-right:90px;" th:each="party: ${parties}">
+    <div class="row" id="partiesListed">
+          <div class="col-lg-3 col-md-6 text-center"  th:each="party: ${parties}">
             <div class="mt-5">
-               <form action="#" th:action="@{/party-info-page}" th:object="${party}" th:if="${party.number != 0}" method="post">
+               <form th:action="@{'/party-info-page/' + ${party.id} + '/'} " th:object="${party}" th:if="${party.number != 0}" method="post">
                   <span>
-                    <a href="/party-info-page" target="blank">  </a>
-                      <img th:src="${party.imageUrl}" height="300" width="300"/>
-                      <h3 style="margin-left: 29px;" class="h4 mb-2" th:text="${party.number + '. ' + party.name}"></h3>
-                      <input type="radio" th:name="${'radio' + party.number}" class="blt-radio-btn" th:field="*{id}" th:value="${party.id}"/>
-                      <button type="submit" class="btn btn-primary btn-m js-scroll-trigger">Повече информация</button>
-                      <p style="margin-left: 29px;" class="text-muted mb-0" th:text="${party.slogan}"></p>
+<!--                    <a href="/party-info-page" target="blank">  </a>-->
+                      <img th:src="${party.imageUrl}" height="120" width="120"/>
+                      <h1 class="h4 mb-2" th:text="${party.number + '. ' + party.name}"></h1>
+                      <button type="submit" th:href="@{'/party-info-page/' + ${party.id} + '/'} " style="width:150px;height:30px; font-size: 12px;text-align: left;" class="btn btn-primary btn-m js-scroll-trigger">Повече информация</button>
+                      <p style="margin-left: 29px; font-size: 12px;" class="text-muted mb-0" th:text="${party.slogan}"></p>
                 </span>
               </form>
             </div>
