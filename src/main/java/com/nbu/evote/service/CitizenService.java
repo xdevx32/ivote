@@ -1,6 +1,7 @@
 package com.nbu.evote.service;
 
 import com.nbu.evote.entity.Citizen;
+import com.nbu.evote.entity.Party;
 import com.nbu.evote.repository.CitizenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,12 @@ public class CitizenService {
 
     public Citizen getCitizenByUniqueVoteIdAndEGN(String uniqueVoteId, String egn) {
         return citizenRepository.findByEGNAndUniqueVoteId(uniqueVoteId, egn);
+    }
+
+    public List<Citizen> getAllCitizens() {
+        ArrayList<Citizen> citizenList = new ArrayList<>();
+        citizenRepository.findAll().forEach(citizen -> citizenList.add(citizen));
+
+        return citizenList;
     }
 }

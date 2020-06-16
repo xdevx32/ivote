@@ -3,10 +3,7 @@ package com.nbu.evote.controller;
 import com.nbu.evote.entity.Ballot;
 import com.nbu.evote.entity.Citizen;
 import com.nbu.evote.entity.Party;
-import com.nbu.evote.service.BallotService;
-import com.nbu.evote.service.CitizenService;
-import com.nbu.evote.service.PartyMemberService;
-import com.nbu.evote.service.PartyService;
+import com.nbu.evote.service.*;
 import com.nbu.evote.utility.DateContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -18,9 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.atomic.AtomicReferenceArray;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -44,6 +38,9 @@ public class WebAppController {
 
     @Autowired
     private BallotService ballotService;
+
+    @Autowired
+    private LineChartService lineChartService;
 
     Citizen currentCitizen;
 
@@ -209,185 +206,11 @@ public class WebAppController {
                 .sorted(Comparator.reverseOrder())
                 .collect(toList());
         // Getting the years of all ballots
-        int finalPassedYear = passedYear;
-        List<Ballot> ballotsForSpecificYear = ballotsList.stream()
-                .filter(ballot -> ballot.getDate().getYear() == finalPassedYear)
-                .collect(toList());
 
-//
-//        /**
-//         *
-//         *
-//         *  TODO!!! DISCUSS IF NEEDED - REMOVE FOR """PRODUCTION"""" THINK!!!!
-//         *
-//         *  THIS PIECE OF CODE SETS ALL BALLOT DATES TO
-//         *  TODAY'S DATE. ONLY IN OBJECTS BUT DOES NOT WRITE TO
-//         *  DATABASE. SO IF YOU WANT TO REMOVE IT
-//         *  JUST REMOVE THE STREAM OPERATION BELOW.
-//         *  THAT WAY , WE CAN VISUALISE MORE DATA
-//         *  IN ADMIN SECTION. THIS CASE IS ABSOLUTELY UNREALISTIC AND
-//         *  MUST NOT BE SHIPPED!!!
-//         *
-//         *
-//         *
-//         *  ONLY TESTING AND DEVELOPING!!!!
-//         *
-//         */
-//
-//        List<Ballot> heads = new ArrayList<>();
-//        List<Ballot> tails = new ArrayList<>();
-//
-//        heads = ballotsList.stream()
-//                .filter(i -> i.getId() % 2 == 0)
-//                .collect(toList());
-//
-//        heads.stream().forEach(f -> f.setDate(LocalDate.now()));
-//
-//        tails = ballotsList.stream()
-//                .filter(i -> i.getId() % 2 != 0)
-//                .collect(toList());
-//
-//        tails.stream().forEach(f -> f.setDate(LocalDate.now().minusYears(1)));
-//
-//        //Concatenating the two newly modified streams.
-//
-//        ballotsList = Stream
-//                .concat(heads.stream(), tails.stream())
-//                .collect(toList());
-        /*
-         *
-         *
-         *
-         *
-         */
-
-        //Hardcoded values of section days
-        //TODO!!!!!!! Discuss!!!!
-        int currentYear = passedYear;
-
-        int lastYear = passedYear - 1;
-
-        List<String> voteTimeListFirstDayStrings = ballotsList.stream()
-                .filter(b -> b.getDate().getYear() == (currentYear))
-                .map(t -> t.getTime().plusHours(3))
-                .map(LocalTime::toString)
-                .map(str -> str.substring(0, 2))
-                .collect(toList());
-
-        List<String> voteTimeListSecondDayStrings = ballotsList.stream()
-                .filter(b -> b.getDate().getYear() == lastYear)
-                .map(t -> t.getTime().plusHours(3))
-                .map(LocalTime::toString)
-                .map(str -> str.substring(0, 2))
-                .collect(toList());
-
-        // Assigning values to list of hours
-        // Example
-        // labels: ["9:00", "10:00", "11:00", "12:00", "13:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"],
-        // Output list should look like:
-        // data: [16, 344, 445, 442, 155, 820, 433, 20, 150, 150, 3]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //1 Previous
-        HashMap<String, Integer> voteCountForPreviousYearInHoursFormatted = new HashMap<>();
-
-
-        //2 Current
-        HashMap<String, Integer> voteCountForCurrentYearInHoursFormatted = new HashMap<>();
-
-
-        //1 Previous
-        for (int i = 1; i <= 24; i++) {
-            voteCountForPreviousYearInHoursFormatted.put(String.valueOf(i), 0);
-        }
-        //1 Previous
-        for (String str : voteTimeListFirstDayStrings) {
-            voteCountForPreviousYearInHoursFormatted.merge(str, 1, Integer::sum);
-        }
-
-        //2 Current
-        for (int i = 1; i <= 24; i++) {
-            voteCountForCurrentYearInHoursFormatted.put(String.valueOf(i), 0);
-        }
-        //2 Current
-        for (String str : voteTimeListSecondDayStrings) {
-            voteCountForCurrentYearInHoursFormatted.merge(str, 1, Integer::sum);
-        }
-
-        //2 Current
-        TreeMap<String, Integer> sorted = new TreeMap<>();
-        sorted.putAll(voteCountForCurrentYearInHoursFormatted);
-        Collection<Integer> values = sorted.values();
-        List<String> voteTimeListCurrentYearStringsSorted = new ArrayList<>();
-        ArrayList<Integer> listOfValues = new ArrayList<Integer>(values);
-        for (Integer value : listOfValues) {
-            voteTimeListCurrentYearStringsSorted.add(String.valueOf(value));
-        }
-        for (String str : voteTimeListSecondDayStrings) {
-            voteCountForCurrentYearInHoursFormatted.merge(str, 1, Integer::sum);
-        }
-
-        //1 Previous
-        TreeMap<String, Integer> sorted2 = new TreeMap<>();
-        sorted2.putAll(voteCountForPreviousYearInHoursFormatted);
-        Collection<Integer> values2 = sorted2.values();
-        List<String> voteTimeListPreviousYearStringsSorted = new ArrayList<>();
-        ArrayList<Integer> listOfValues2 = new ArrayList<Integer>(values2);
-        for (Integer value : listOfValues2) {
-            voteTimeListPreviousYearStringsSorted.add(String.valueOf(value));
-        }
-        for (String str : voteTimeListFirstDayStrings) {
-            voteCountForPreviousYearInHoursFormatted.merge(str, 1, Integer::sum);
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //End second day
-        // BUG ABOVE. FIX IT!
+        HashMap<String,List<String>> result = lineChartService.GenerateLineChart(passedYear, ballotsList);
+        List<String> voteTimeListPreviousYearStringsSorted = result.get("voteTimeListPreviousYearStringsSorted");
+        List<String> voteTimeListCurrentYearStringsSorted = result.get("voteTimeListCurrentYearStringsSorted");
+        
 
         HashMap<Integer, String> pieChartData = new HashMap<>();
         for (int i = 0; i < partyBallotsCountList.size(); i++) {
@@ -397,7 +220,7 @@ public class WebAppController {
         Integer totalBallotsCastedForSection = ballotService.getBallots().size();
 
         System.out.println("Total Ballots for section: " + totalBallotsCastedForSection);
-        String dateOfVoteFromBackend = String.valueOf(currentYear);
+        String dateOfVoteFromBackend = String.valueOf(passedYear);
 
 
         List<String> newPartyShortNames = new ArrayList<>();

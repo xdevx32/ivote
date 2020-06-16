@@ -1,5 +1,9 @@
 package com.nbu.evote.controller;
 
+import com.nbu.evote.entity.Ballot;
+import com.nbu.evote.entity.Citizen;
+import com.nbu.evote.entity.Party;
+import com.nbu.evote.service.BallotService;
 import com.nbu.evote.service.CitizenService;
 import com.nbu.evote.utility.CSVReaderAndParser;
 import com.nbu.evote.service.PartyService;
@@ -9,9 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,6 +21,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
 public class UploadController {
@@ -28,6 +35,10 @@ public class UploadController {
 
     @Autowired
     private CitizenService citizenService;
+
+
+    @Autowired
+    private BallotService ballotService;
 
     private static String UPLOADED_FOLDER = "src/main/resources/csv/uploaded/";
 
@@ -121,5 +132,41 @@ public class UploadController {
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
+
+
+
+
+    @RequestMapping(value = "/addSomeMockData", method = RequestMethod.GET)
+    public String addMockData() {
+
+        LocalTime z = LocalTime.now();
+        for (int i =0; i< 350; i++) {
+
+            Ballot b = new Ballot();
+            b.setCitizen(citizenService.getCitizen(1));
+            if(i%2==0) {
+                b.setTime(z.plusHours(ThreadLocalRandom.current().nextInt(1, 24)));
+                b.setDate(LocalDate.of(2020,5,12));
+            }else {
+                b.setTime(z.plusHours(ThreadLocalRandom.current().nextInt(1, 24)));
+                b.setDate(LocalDate.of(2019,5,21));
+            }
+
+            List<Party> allParties = partyService.getAllParties();
+            Party p = allParties.get(ThreadLocalRandom.current().nextInt(1, allParties.size()));
+            List<Citizen> allCitizens = citizenService.getAllCitizens();
+            Citizen c = allCitizens.get(ThreadLocalRandom.current().nextInt(1, allCitizens.size()));
+            c.setBallot(b);
+            b.setParty(p);
+            b.setCitizen(c);
+            p.addBallot(b);
+            c.setBallot(b);
+            ballotService.addBallot(b);
+            citizenService.updateCitizen(c);
+
+        }
+        return "../static/admin";
+    }
+
 
 }
