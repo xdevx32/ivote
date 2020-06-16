@@ -42,6 +42,21 @@ public class WebAppController {
     @Autowired
     private LineChartService lineChartService;
 
+    @Autowired
+    PartyNamesShortListService partyNamesShortListService;
+
+    @Autowired
+    AgesPieChartService agesPieChartService;
+
+    @Autowired
+    VoteResultsPieChartService voteResultsPieChartService;
+
+    @Autowired
+    PartyBallotCountListService partyBallotCountListService;
+
+    @Autowired
+    CityActivityService cityActivityService;
+
     Citizen currentCitizen;
 
     @Autowired
@@ -175,9 +190,6 @@ public class WebAppController {
         model.addAttribute("datetime", new Date());
         model.addAttribute("mode", appMode);
 
-        //LocalDate dateToCheckFor = model.getAttribute("datePickerValue");
-
-
         List<Ballot> ballotsList = new ArrayList<>();
         try {
             ballotsList = ballotService.getBallots();
@@ -194,55 +206,27 @@ public class WebAppController {
             passedYear = Integer.parseInt(dateContainer.getYear());
         }
 
-        ArrayList<Party> partiesList = partyService.getAllParties();
-        List<String> partyNamesList = partiesList.stream()
-                .sorted(Comparator.comparing(Party::getBallotsCount, Comparator.reverseOrder()))
-                .map(Party::getName)
-                .collect(toList());
-
-        int finalPassedYear1 = passedYear;
-        List<Integer> partyBallotsCountList = partiesList.stream()
-                .map(p -> p.getBallotsCountForSpecificYear(finalPassedYear1))
-                .sorted(Comparator.reverseOrder())
-                .collect(toList());
-        // Getting the years of all ballots
-
-        HashMap<String,List<String>> result = lineChartService.GenerateLineChart(passedYear, ballotsList);
-        List<String> voteTimeListPreviousYearStringsSorted = result.get("voteTimeListPreviousYearStringsSorted");
-        List<String> voteTimeListCurrentYearStringsSorted = result.get("voteTimeListCurrentYearStringsSorted");
-        
-
-        HashMap<Integer, String> pieChartData = new HashMap<>();
-        for (int i = 0; i < partyBallotsCountList.size(); i++) {
-            pieChartData.put(partyBallotsCountList.get(i), partyNamesList.get(i));
-        }
-
         Integer totalBallotsCastedForSection = ballotService.getBallots().size();
 
         System.out.println("Total Ballots for section: " + totalBallotsCastedForSection);
         String dateOfVoteFromBackend = String.valueOf(passedYear);
 
+        HashMap<String,List<String>> result = lineChartService.GenerateLineChart(passedYear, ballotsList);
+        List<String> voteTimeListPreviousYearStringsSorted = result.get("voteTimeListPreviousYearStringsSorted");
+        List<String> voteTimeListCurrentYearStringsSorted = result.get("voteTimeListCurrentYearStringsSorted");
 
-        List<String> newPartyShortNames = new ArrayList<>();
+        List<String> newPartyShortNames = partyNamesShortListService.generate();
+        HashMap<Integer, String> pieChartData = voteResultsPieChartService.voteResultsPieChartData(passedYear);
+        HashMap<Integer, String> agesPieChartData = agesPieChartService.generateAgesPieChart(passedYear);
+        List<Integer> partyBallotsCountList = partyBallotCountListService.generate(passedYear);
 
-        for (String s : partyNamesList) {
+        List<Integer> keyList = new ArrayList(agesPieChartData.keySet());
+        List<String> valueList = new ArrayList(agesPieChartData.values());
 
-            int index = 0;
-            String abreviature = "";
-            for (int i = 0; i < s.length() - 1; i++) {
-                if (s.length() < 5 ) {
-                    abreviature = s;
-                    continue;
-                }
-                if ( Character.isUpperCase(s.charAt(i))) {
-                    abreviature += s.charAt(i);
-                }
-            }
+        HashMap<Integer, String> citiesPieChartData = cityActivityService.generate(passedYear);
 
-            newPartyShortNames.add(abreviature);
-            index++;
-        }
-
+        List<Integer> citiesCountListKeyList = new ArrayList(citiesPieChartData.keySet());
+        List<String> citiesNamesListvalueList = new ArrayList(citiesPieChartData.values());
 
         model.addAttribute("partiesNamesList", newPartyShortNames);
         model.addAttribute("ballotsCountList", partyBallotsCountList);
@@ -251,6 +235,11 @@ public class WebAppController {
         model.addAttribute("dateOfVoteFromBackend", dateOfVoteFromBackend);
         model.addAttribute("totalBallotsCastedForSection", totalBallotsCastedForSection);
         model.addAttribute("pieChartData", pieChartData);
+        model.addAttribute("citizenAgesListCount", keyList);
+        model.addAttribute("citizenAgesList", valueList);
+        model.addAttribute("citiesCountList", citiesCountListKeyList);
+        model.addAttribute("citiesNamesList", citiesNamesListvalueList);
+
         return "../static/bar-charts";
     }
 }

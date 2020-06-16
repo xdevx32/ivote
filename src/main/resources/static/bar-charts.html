@@ -218,6 +218,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="bar-chart-wp2">
+                        <canvas height="140vh" width="400vw" id="barchart2"></canvas>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3" style="margin-bottom: 10%;">
+                        <div class="breadcomb-report">
+                            <button data-toggle="tooltip" onclick="printBarChartAges()" data-placement="left" title="Изтегляне на доклад с възраст на гласувалите граждани" class="btn"><i class="notika-icon notika-sent"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="bar-chart-wp2">
+                        <canvas height="140vh" width="400vw" id="barchart3"></canvas>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3" style="margin-bottom: 10%;">
+                        <div class="breadcomb-report">
+                            <button data-toggle="tooltip" onclick="printBarChartCities()" data-placement="left" title="Изтегляне на доклад с активност по градове" class="btn"><i class="notika-icon notika-sent"></i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -293,6 +313,10 @@
     /* <![CDATA[*/
         var partyNamesList = [[${partiesNamesList}]];
         var partiesBallotsCount =  [[${ballotsCountList}]];
+        var citizenAgesListCount = [[${citizenAgesListCount}]];
+        var citizenAgesList = [[${citizenAgesList}]];
+        var citiesCountList = [[${citiesCountList}]];
+        var citiesNamesList = [[${citiesNamesList}]];
         var ballotsTimelineListFirstYear =  [[${ballotsTimelineListFirstYear}]];
         var ballotsTimelineListSecondYear = [[${ballotsTimelineListSecondYear}]];
         var totalVoteCount = [[${totalBallotsCastedForSection}]];

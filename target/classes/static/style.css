@@ -4649,3 +4649,121 @@ body.box-layout {
 /*----------------------------------------*/
 .mCS-light-1.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{ background-color: #00c292; }
 .mCS-light-1.mCSB_scrollTools .mCSB_draggerRail{ background-color: #ccc; }
+
+/* Popups */
+
+ .trigger {
+     margin: 74px 176px -90px 200px;;
+     width: 150px;
+     height: 20px;
+     position: relative;
+     text-align: center;
+ }
+
+.trigger2 {
+    margin: 74px 176px -55px 390px;
+    width: 150px;
+    height: 20px;
+    position: relative;
+    text-align: center;
+}
+
+.popup {
+    position: absolute;
+    left: 0;
+    top: -60px;
+    transform: translate3d(0, -50%, 0);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    background: none;
+    border-radius: 100px;
+    width: 100%;
+    margin-right: 80%;
+}
+
+.popup:after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    transform: rotate(-45deg);
+    background: #fff;
+    position: absolute;
+    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.5);
+    z-index: -1;
+    bottom: -10px;
+    left: calc(50% - 10px);
+}
+
+.inner {
+    padding: 50px 0;
+    background: #fff;
+    border-radius: 100px;
+}
+
+
+
+.popup2 {
+    position: absolute;
+    left: 0;
+    top: -60px;
+    transform: translate3d(0, -50%, 0);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    background: none;
+    border-radius: 100px;
+    width: 100%;
+    margin-right: 80%;
+}
+
+.popup2:after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    transform: rotate(-45deg);
+    background: #fff;
+    position: absolute;
+    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.5);
+    z-index: -1;
+    bottom: -10px;
+    left: calc(50% - 10px);
+}
+
+.inner2 {
+    padding: 50px 0;
+    background: #fff;
+    border-radius: 100px;
+}
+.mobile-menu-area {
+    display:none;
+}
+#containr-12 {
+    display: inline-block; margin-left: 220px;
+}
+#containr-13 {
+    display: inline-block;
+    margin-left: 672px;
+    margin-top: -433px;
+}
+@media (max-width: 400px) {
+
+    .mobile-menu-area {
+        display:block;
+        width:100%;
+    }
+
+    #containr-12 {
+        display:none;
+    }
+    #containr-13 {
+        margin-top: -433px;
+        display:none;
+
+    }
+    h2 {
+        display:none;
+    }
+    .trigger {
+        display:none;
+    }
+    .trigger2 {
+        display:none;
+    }
+}

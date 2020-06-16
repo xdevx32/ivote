@@ -17,3 +17,19 @@
         margin-top:350px;
     }
 }
+
+@media (min-width:1000px) {
+    #partyRowInfo {
+        display: unset;
+        flex-wrap: wrap;
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+}
+
+
+@media (max-width:768px) {
+    #partyRowInfo img {
+        height:200px;
+    }
+}

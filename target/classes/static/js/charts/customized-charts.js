@@ -1,6 +1,6 @@
  /* <![CDATA[*/
-        var partyNamesList = /*[[${partiesNamesList}]]*/;;
-        var partiesBallotsCount =  /*[[${ballotsCountList}]]*/;
+        var partyNamesList = [[${partiesNamesList}]];
+        var partiesBallotsCount =  [[${ballotsCountList}]];
         (function ($) {
          "use strict";
              /*----------------------------------------*/

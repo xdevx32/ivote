@@ -7,6 +7,14 @@
 		/*position: static;*/
 		width: 140%;
 	}
+
+	#agesChartRowContainer {
+		width:60% !important;
+		float: left;
+		margin-left:20% !important;
+		/*position: static;*/
+		width: 140%;
+	}
 	.breadcomb-wp {
 		margin-top: 0px !important;
 	}
@@ -52,6 +60,12 @@
 		margin-top: 730%;
 	}
 	#chartRowContainer {
+		height: 340px;
+		width:420px;
+		margin-left:11.35%;
+	}
+
+	#agesChartRowContainer {
 		height: 340px;
 		width:420px;
 		margin-left:11.35%;
@@ -396,6 +410,13 @@
 		height: 340px;
 		width:420px;
 		margin-left:11.35%;
+	}
+
+	#agesChartRowContainer {
+		height: 340px;
+		width:420px;
+		margin-left:11.35%;
+
 	}
 	#basiclinechart canvas {
 		height:1500px !important;

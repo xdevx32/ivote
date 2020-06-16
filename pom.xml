@@ -11,7 +11,7 @@
 	<groupId>com.example.evote.prototype</groupId>
 	<artifactId>demo.evote</artifactId>
 	<packaging>war</packaging>
-	<version>ivote-system-WAR-4.5</version>
+	<version>ivote-system-WAR-4.6</version>
 	<name>demo.evote</name>
 	<url>http://ivote-bg.com</url>
 	<description>Diploma work</description>
@@ -55,6 +55,12 @@
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.27.0</version>
+			<scope>test</scope>
 		</dependency>
 		<!-- Actually this is a very nice database. -->
 <!--		<dependency>-->

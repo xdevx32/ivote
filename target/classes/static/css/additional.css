@@ -30,6 +30,11 @@ input[type=radio].blt-radio-btn {
     float: left;
     margin: -48px;
 }
+
+#top-logo-frontend {
+    float:left;
+    margin-top: -136px;    margin-left: 15px;
+}
 /*
 input[type=radio].blt-radio-btn + label.css-label {
     padding-left:55px;

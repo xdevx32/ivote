@@ -1,4 +1,4 @@
-package com.nbu.evote.service.impl;
+package com.nbu.evote.service;
 
 import com.nbu.evote.entity.Ballot;
 import com.nbu.evote.service.LineChartService;

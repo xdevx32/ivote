@@ -171,7 +171,12 @@
 							</div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3">
 								<div class="breadcomb-report">
-									<button data-toggle="tooltip" onclick="printBothCharts()" data-placement="left" title="Изтегляне на всички доклади" class="btn"><i class="notika-icon notika-sent"></i></button>
+                                    <form th:action="@{/barchart}" th:object="${dateContainer}">
+                                        <select id="yearselect" onclick="loadYearsSelector()" th:field="*{year}"></select>
+<!--                                        <label>Дата: </label><input type="datetime-local" th:field="*{dateTime}"/>-->
+                                        <input type="submit" value="Провери данни за избраната година"/>
+                                    </form>
+                                    <button data-toggle="tooltip" onclick="printBothCharts()" data-placement="left" title="Изтегляне на всички доклади" class="btn"><i class="notika-icon notika-sent"></i></button>
 								</div>
 							</div>
 						</div>
@@ -182,8 +187,9 @@
 	</div>
 	<!-- Breadcomb area End-->
     <!-- Pie Chart Area Start-->
-    <div class="row" style="height: 420px;width:77.3%;margin-left:11.35%;">
-        <div id="chartContainer" style="height: 420px;width:77.3%;margin-left:11.35%;"></div>
+
+    <div class="row" id="chartRowContainer" style="position: static;">
+        <div id="chartContainer"></div>
     </div>
     <!-- Pie Chart Area End-->
 
@@ -192,9 +198,9 @@
     <div class="bar-chart-area">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="width:100% !important; height:50% !important;">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
                     <div class="line-chart-wp chart-display-nn">
-                        <canvas height="70vh" width="180vw" id="basiclinechart"></canvas>
+                        <canvas height="140vh" width="400vw" id="basiclinechart"></canvas>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3">
                         <div class="breadcomb-report">
@@ -202,13 +208,33 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="width:100% !important; height:50% !important; margin-top: 10px;">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="bar-chart-wp">
-                        <canvas height="70vh" width="180vw" id="barchart1"></canvas>
+                        <canvas height="140vh" width="400vw" id="barchart1"></canvas>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3" style="margin-bottom: 10%;">
                         <div class="breadcomb-report">
                             <button data-toggle="tooltip" onclick="printBarChart()" data-placement="left" title="Изтегляне на доклад с общ брой гласове на партия" class="btn"><i class="notika-icon notika-sent"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="bar-chart-wp2">
+                        <canvas height="140vh" width="400vw" id="barchart2"></canvas>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3" style="margin-bottom: 10%;">
+                        <div class="breadcomb-report">
+                            <button data-toggle="tooltip" onclick="printBarChartAges()" data-placement="left" title="Изтегляне на доклад с възраст на гласувалите граждани" class="btn"><i class="notika-icon notika-sent"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="bar-chart-wp2">
+                        <canvas height="140vh" width="400vw" id="barchart3"></canvas>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3" style="margin-bottom: 10%;">
+                        <div class="breadcomb-report">
+                            <button data-toggle="tooltip" onclick="printBarChartCities()" data-placement="left" title="Изтегляне на доклад с активност по градове" class="btn"><i class="notika-icon notika-sent"></i></button>
                         </div>
                     </div>
                 </div>
@@ -281,17 +307,21 @@
 
     <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
     <style src="https://printjs-4de6.kxcdn.com/print.min.css"></style>
-<!--    <script src="js/charts/bar-chart.js"></script>-->
+    <script src="js/charts/bar-chart.js"></script>
     <script th:inline="javascript">
 
     /* <![CDATA[*/
-        var partyNamesList = /*[[${partiesNamesList}]]*/;
-        var partiesBallotsCount =  /*[[${ballotsCountList}]]*/;
-        var ballotsTimelineListFirstDay =  /*[[${ballotsTimelineListFirstDay}]]*/;
-        var ballotsTimelineListSecondDay = /*[[${ballotsTimelineListSecondDay}]]*/;
-        var totalVoteCount = /*[[${totalBallotsCastedForSection}]]*/;
-        var PCD = /*[[${pieChartData}]]*/;
-        var dateOfVote = /*[[${dateOfVoteFromBackend}]]*/;
+        var partyNamesList = [[${partiesNamesList}]];
+        var partiesBallotsCount =  [[${ballotsCountList}]];
+        var citizenAgesListCount = [[${citizenAgesListCount}]];
+        var citizenAgesList = [[${citizenAgesList}]];
+        var citiesCountList = [[${citiesCountList}]];
+        var citiesNamesList = [[${citiesNamesList}]];
+        var ballotsTimelineListFirstYear =  [[${ballotsTimelineListFirstYear}]];
+        var ballotsTimelineListSecondYear = [[${ballotsTimelineListSecondYear}]];
+        var totalVoteCount = [[${totalBallotsCastedForSection}]];
+        var PCD = [[${pieChartData}]];
+        var dateOfVote = [[${dateOfVoteFromBackend}]];
         var pieChartData = [];
 
         var importedInlineScriptForBarCharts = document.createElement('script');
@@ -300,6 +330,21 @@
         importedPieChartScript.src = 'js/charts/pieCharts.js';
         document.head.appendChild(importedInlineScriptForBarCharts);
         document.head.appendChild(importedPieChartScript);
+
+
+        function loadYearsSelector()
+        {
+            var startyear = 2020;
+            var endyear = 2000;
+            for (var i = startyear;i>=endyear;i--){
+                node=document.createElement("Option");
+                textnode=document.createTextNode(i);
+                node.appendChild(textnode);
+                document.getElementById("yearselect").appendChild(node);
+            }
+        }
+        loadYearsSelector();
+
     /*]]>*/
 
     </script>

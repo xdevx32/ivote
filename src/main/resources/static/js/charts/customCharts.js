@@ -52,6 +52,95 @@
             }
         });
 
+    var ctx2 = document.getElementById("barchart2");
+    var barchart2 = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: citizenAgesList /*["ГЕРБ", "ВМРО", "БСП", "СДС", "АТАКА", "Марешки", "Спаси София"]*/,
+            datasets: [{
+                label: 'Гласове за кандидати',
+                data: citizenAgesListCount,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgb(50,205,50, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            title:{
+                display:true,
+                text:'Графика - възраст на гласувалите'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+
+    var ctx3 = document.getElementById("barchart3");
+    var barchart3 = new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: citiesNamesList /*["ГЕРБ", "ВМРО", "БСП", "СДС", "АТАКА", "Марешки", "Спаси София"]*/,
+            datasets: [{
+                label: 'Гласове за кандидати',
+                data: citiesCountList,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgb(50,205,50, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            title:{
+                display:true,
+                text:'Графика - активност от различни градове и села.'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
        //TODO: Pass hours and votes to fill arrays
      /*----------------------------------------*/
     /*  1.  Basic Line Chart
@@ -164,6 +253,12 @@ function printLineChart()
 function printBarChart(){
     printJS({printable: document.querySelector("#barchart1").toDataURL(), type: 'image', imageStyle: 'width:100%'});
 }
+
+function printBarChartАгес(){
+    printJS({printable: document.querySelector("#barchart2").toDataURL(), type: 'image', imageStyle: 'width:100%'});
+}
+
+
 
 function printBothCharts(){
 //    var win=window.open();

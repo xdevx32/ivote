@@ -1,5 +1,5 @@
 .mobile-menu-area{
-	display:none;
+	display:block;
 }
 a.meanmenu-reveal{display:none}
 .mean-container .mean-bar {

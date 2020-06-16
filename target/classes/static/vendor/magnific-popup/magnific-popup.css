@@ -349,3 +349,42 @@ img.mfp-img {
   .mfp-container {
     padding-left: 6px;
     padding-right: 6px; } }
+
+#partiesListed h1 {
+  margin-left: 29px;
+  font-size: 16px;
+  text-align: left;
+}
+
+@media (min-width: 180px) and (max-width: 580px) {
+  #partiesListed{
+    margin-left: 1%!important;
+    padding-right: 14px;
+
+  }
+  #partiesListed h1 {
+    margin-left: 29px;
+    font-size: 16px;
+    text-align: center;
+  }
+}
+
+@media (min-width: 580px) and (max-width: 760px) {
+  #partiesListed{
+    margin-left: 11% !important;
+    padding-right: 62px;
+  }
+}
+
+@media (min-width: 760px) and (max-width: 990px) {
+  #partiesListed{
+    /*margin-left: 11% !important;*/
+    margin-right: -46px !important;
+  }
+}
+
+@media (min-width: 1092px) and (max-width: 1200px) {
+  #partiesListed{
+    margin-left: 18% !important;
+  }
+}
