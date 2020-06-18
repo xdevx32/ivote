@@ -14,28 +14,79 @@
 if ($(window).innerWidth() < 400) {
 	var canvas = document.getElementById("basiclinechart");
 	canvas.height = 700;
+	canvas.width = 700;
+
 	var canvas2 = document.getElementById("barchart1");
 	canvas2.height = 400;
-} else if($(window).innerWidth() > 400 < 900) {
+	canvas2.width = 350;
+
+	var canvas3 = document.getElementById("barchart2");
+	canvas3.height = 450;
+	canvas3.width = 350;
+	var canvas4 = document.getElementById("barchart3");
+	canvas4.height = 450;
+	canvas4.width = 350;
+} else if($(window).innerWidth() < 600 && $(window).innerWidth() < 700) {
 	var canvas = document.getElementById("basiclinechart");
-	canvas.height = 200;
+	canvas.height = 700;
+	canvas.width = 700;
 	var canvas2 = document.getElementById("barchart1");
-	canvas2.height = 200;
+	canvas2.height = 450;
+	canvas2.width = 350;
+	var canvas3 = document.getElementById("barchart2");
+	canvas3.height = 450;
+	canvas3.width = 350;
+	var canvas4 = document.getElementById("barchart3");
+	canvas4.height = 450;
+	canvas4.width = 350;
+} else if($(window).innerWidth() > 700 && $(window).innerWidth() < 900) {
+	var canvas = document.getElementById("basiclinechart");
+	canvas.height = 450;
+	var canvas2 = document.getElementById("barchart1");
+	canvas2.height = 450;
+	canvas2.width = 450;
+	var canvas3 = document.getElementById("barchart2");
+	canvas3.height = 450;
+	canvas3.width = 450;
+	var canvas4 = document.getElementById("barchart3");
+	canvas4.height = 450;
+	canvas4.width = 450;
+}  else if($(window).innerWidth() > 700 && $(window).innerWidth() < 900  && $(window).innerWidth() < $(window).innerHeight()) {
+	var canvas = document.getElementById("basiclinechart");
+	canvas.height = 700;
+	var canvas2 = document.getElementById("barchart1");
+	canvas2.height = 450;
+	canvas2.width = 700;
+	var canvas3 = document.getElementById("barchart2");
+	canvas3.height = 450;
+	canvas3.width = 700;
+	var canvas4 = document.getElementById("barchart3");
+	canvas4.height = 450;
+	canvas4.width = 700;
+} else if($(window).innerWidth() > 900 && $(window).innerWidth() < 1200) {
+
+	var canvas = document.getElementById("basiclinechart");
+	canvas.height = 1000;
+	canvas.width = 1000;
+	console.log("Acho e pich");
+
+	var canvas2 = document.getElementById("barchart1");
+	canvas2.height = 1000;
+	canvas2.width = 1000;
+
+	var canvas3 = document.getElementById("barchart2");
+	canvas3.height = 1000;
+	canvas3.width = 1000;
+
+	var canvas4 = document.getElementById("barchart3");
+	canvas4.height = 1000;
+	canvas4.width = 1000;
 } else {
 	var canvas = document.getElementById("basiclinechart");
 	canvas.height = 140;
 	var canvas2 = document.getElementById("barchart1");
 	canvas2.height = 140;
 }
-
-
-
-$(document).ready(function(){
-	resize();
-	$(window).on("resize", function(){
-		resize();
-	});
-});
 
 },{}],2:[function(require,module,exports){
 /* MIT license */

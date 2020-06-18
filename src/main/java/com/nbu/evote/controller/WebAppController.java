@@ -104,9 +104,14 @@ public class WebAppController {
                 .filter(ballot -> ballot.getParty().getNumber().equals(String.valueOf(0)))
                 .count();
 
+        Integer totalCitizensDidNotVote = (int) ballotService.getBallots().stream()
+                .filter(ballot -> ballot.getParty().getNumber().equals(String.valueOf(0)))
+                .count();
+
 
         model.addAttribute("totalBallotsCount", totalBallotsCount);
         model.addAttribute("emptyBallotsCount", emptyBallotsCount);
+        model.addAttribute("totalCitizensDidNotVote", totalCitizensDidNotVote);
         return "../static/admin";
     }
 

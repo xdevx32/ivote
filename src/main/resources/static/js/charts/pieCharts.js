@@ -20,6 +20,8 @@ if (pieChartData.length < 2) {
 var chart = new CanvasJS.Chart("chartContainer", {
 	exportEnabled: true,
 	animationEnabled: true,
+	height: 600,
+	width: 1100,
 	title:{
 		text: "Процент гласове по партия"
 	},
@@ -37,9 +39,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 });
 chart.render();
 };
-     var container = document.getElementById("chartContainer");
-        var content = document.createElement("span");
-                container.appendChild(pieChartData);
+
 document.write(pieChartData);
 function explodePie (e) {
 	if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {

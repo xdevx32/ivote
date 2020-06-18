@@ -42,7 +42,7 @@ public class UploadController {
 
     private static String UPLOADED_FOLDER = "src/main/resources/csv/uploaded/";
 
-    @PostMapping("/admin/upload/citizens")
+    @PostMapping("/upload/citizens")
     public String citizenFileUploader(@RequestParam("file") MultipartFile file,Model model,
                                    RedirectAttributes redirectAttributes) {
 
@@ -74,6 +74,8 @@ public class UploadController {
                     "or invokePartiesUpload, respectively. Add your new property as the " +
                     " other properties are carefully added, add you won't get an exception " +
                     "*************************");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return "redirect:/uploadStatus";
@@ -154,6 +156,43 @@ public class UploadController {
 
             List<Party> allParties = partyService.getAllParties();
             Party p = allParties.get(ThreadLocalRandom.current().nextInt(1, allParties.size()));
+            List<Citizen> allCitizens = citizenService.getAllCitizens();
+            Citizen c = allCitizens.get(ThreadLocalRandom.current().nextInt(1, allCitizens.size()));
+            c.setBallot(b);
+            b.setParty(p);
+            b.setCitizen(c);
+            p.addBallot(b);
+            c.setBallot(b);
+            c.setHasVoted(true);
+            ballotService.addBallot(b);
+            citizenService.updateCitizen(c);
+
+        }
+        return "../static/admin";
+    }
+
+    @RequestMapping(value = "/addSomeMockCitizenData", method = RequestMethod.GET)
+    public String addMockCitizenData() {
+
+
+
+        LocalTime z = LocalTime.now();
+        for (int i =0; i< 100; i++) {
+
+            Ballot b = new Ballot();
+            b.setCitizen(citizenService.getCitizen(1));
+            if(i%2==0) {
+                b.setTime(z.plusHours(ThreadLocalRandom.current().nextInt(1, 24)));
+                b.setDate(LocalDate.of(2020,5,12));
+            }else {
+                b.setTime(z.plusHours(ThreadLocalRandom.current().nextInt(1, 24)));
+                b.setDate(LocalDate.of(2019,5,21));
+            }
+
+            List<Party> allParties = partyService.getAllParties();
+            // Random Party
+            //Party p = allParties.get(ThreadLocalRandom.current().nextInt(1, allParties.size()));
+            Party p = partyService.getParty(3);
             List<Citizen> allCitizens = citizenService.getAllCitizens();
             Citizen c = allCitizens.get(ThreadLocalRandom.current().nextInt(1, allCitizens.size()));
             c.setBallot(b);
