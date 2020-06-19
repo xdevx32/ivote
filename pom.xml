@@ -11,7 +11,7 @@
 	<groupId>com.example.evote.prototype</groupId>
 	<artifactId>demo.evote</artifactId>
 	<packaging>war</packaging>
-	<version>ivote-system-WAR-4.6</version>
+	<version>ivote-system-WAR-5.3</version>
 	<name>demo.evote</name>
 	<url>http://ivote-bg.com</url>
 	<description>Diploma work</description>
@@ -49,7 +49,6 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.14</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>

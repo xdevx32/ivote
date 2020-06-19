@@ -171,11 +171,6 @@
 							</div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3">
 								<div class="breadcomb-report">
-                                    <form th:action="@{/barchart}" th:object="${dateContainer}">
-                                        <select id="yearselect" onclick="loadYearsSelector()" th:field="*{year}"></select>
-<!--                                        <label>Дата: </label><input type="datetime-local" th:field="*{dateTime}"/>-->
-                                        <input type="submit" value="Провери данни за избраната година"/>
-                                    </form>
                                     <button data-toggle="tooltip" onclick="printBothCharts()" data-placement="left" title="Изтегляне на всички доклади" class="btn"><i class="notika-icon notika-sent"></i></button>
 								</div>
 							</div>
@@ -188,9 +183,7 @@
 	<!-- Breadcomb area End-->
     <!-- Pie Chart Area Start-->
 
-    <div class="row" id="chartRowContainer" style="position: static;">
-        <div id="chartContainer"></div>
-    </div>
+
     <!-- Pie Chart Area End-->
 
 
@@ -198,6 +191,14 @@
     <div class="bar-chart-area">
         <div class="container">
             <div class="row">
+                <form th:action="@{/barchart}" th:object="${dateContainer}">
+                    <select id="yearselect" onclick="loadYearsSelector()" th:field="*{year}"></select>
+                    <!--                                        <label>Дата: </label><input type="datetime-local" th:field="*{dateTime}"/>-->
+                    <input type="submit" value="Провери данни за избраната година"/>
+                </form>
+                <div class="row" id="chartRowContainer" style="position: static;">
+                    <div id="chartContainer"></div>
+                </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
                     <div class="line-chart-wp chart-display-nn">
                         <canvas height="140vh" width="400vw" id="basiclinechart"></canvas>

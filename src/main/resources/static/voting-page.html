@@ -75,15 +75,17 @@
 
     </div>
     <!-- Masthead -->
-    <a id="top-logo-frontend"
+    <div class="container-animated"/>
+    <a class="border-animation" id="top-logo-frontend"
        style="
-                position:   absolute;
-                top:        5px;
-                left:       5px;
-                text-align: left;
-                margin-top: 10px;
-             "
-       href="/"><img src="img/logo/logo.png" alt="" /></a>
+                  position:   absolute;
+                  top:        5px;
+                  left:       5px;
+                  text-align: left;
+                  margin-top: 10px;
+               "
+       href="/"><img class="border-animation__inner" src="img/logo/logo.png" alt="" /></a>
+    </div>
     <header class="masthead" th:if="${citizen.id != 0 && citizen.EGN != null && citizen.uniqueVoteId != null}">
          <form action="#" th:action="@{/vote-success}" th:object="${party}" method="post">
              <div class="container h-100">

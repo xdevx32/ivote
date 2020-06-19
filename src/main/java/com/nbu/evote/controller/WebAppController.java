@@ -3,6 +3,7 @@ package com.nbu.evote.controller;
 import com.nbu.evote.entity.Ballot;
 import com.nbu.evote.entity.Citizen;
 import com.nbu.evote.entity.Party;
+import com.nbu.evote.entity.PartyMember;
 import com.nbu.evote.service.*;
 import com.nbu.evote.utility.DateContainer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,8 +71,19 @@ public class WebAppController {
         model.addAttribute("username", "Acho");
         model.addAttribute("mode", appMode);
 
+        PartyMember partyMember = new PartyMember();
+        partyMember.setDayOfBirth(LocalDate.now());
+        partyMember.setName("Йордан Величков");
+        partyMember.setPortraitUrl("https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
+        Party party1 = partyService.getParty(2);
+        partyMember.setParty(party1);
+        partyMemberService.addPartyMember(partyMember);
+        List<PartyMember> pms= new ArrayList<>();
+        pms.add(partyMember);
+        party1.setPartyMembers(pms);
         List<Party> parties = new ArrayList<>();
         parties = partyService.getAllParties();
+        partyService.updateParty(party1);
 
         parties.sort(Comparator.comparing(Party::getNumber));
 //        model.addAttribute("party", party);

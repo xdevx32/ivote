@@ -21,7 +21,7 @@ public class Party {
     private String slogan;
 
     @OneToMany
-    private List<PartyMember> partyMembersList;
+    private List<PartyMember> partyMembers;
 
     private String imageUrl;
 
@@ -77,6 +77,14 @@ public class Party {
 
     public void addBallot(Ballot ballot) {
         this.ballots.add(ballot);
+    }
+
+    public List<PartyMember> getPartyMembers() {
+        return partyMembers;
+    }
+
+    public void setPartyMembers(List<PartyMember> partyMembers) {
+        this.partyMembers = partyMembers;
     }
 
     public Integer getBallotsCount() {

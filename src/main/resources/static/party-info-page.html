@@ -27,7 +27,17 @@
 </head>
 
 <body id="page-top">
-
+<div class="container-animated"/>
+<a class="border-animation" id="top-logo-frontend"
+   style="
+                  position:   absolute;
+                  top:        5px;
+                  left:       5px;
+                  text-align: left;
+                  margin-top: 10px;
+               "
+   href="/"><img class="border-animation__inner" src="img/logo/logo.png" alt="" /></a>
+</div>
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
     <div class="container">
@@ -49,16 +59,22 @@
 </nav>
 
 <!-- Masthead -->
-<header class="masthead">
+
+<header class="masthead" style = "height: 220vh !important;">
         <div class="row align-items-center justify-content-center text-center">
             <div class="container">
                 <h2 class="text-center mt-0">Страница на партия.</h2>
                 <div id="partyRowInfo" class="row">
                     <div class="mt-5">
                         <h3 class="h4 mb-2" th:text="${party.number + '. ' + party.name}"></h3>
-                        <img th:src="${party.groupImageUrl}" href="/party-info-page" height="400" width="700"/>
+                        <img style = "border-image-slice:15 15 15 15 fill;border-image-width:10px 10px 10px 10px;border-image-outset:0px 0px 0px 0px;border-image-repeat:round round;border-image-source:url('https://www.ikea.com/jo/en/images/products/hovsta-frame-dark-brown__0638163_PE698727_S5.JPG?f=s'); "th:src="${party.groupImageUrl}" href="/party-info-page" height="400" width="700"/>
                         <p class="text-muted mb-0" th:text="${party.slogan}"></p>
                     </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center"  th:each="partyMember: ${party.partyMembers}">
+                <h3 class="h4 mb-2" th:text="${partyMember.name + '. '}"></h3>
+                    <img style="border-radius: 24px;" th:src="${partyMember.portraitUrl}" href="/party-info-page" height="300" width="200"/>
+                    <p class="text-muted mb-0" th:text="${partyMember.dayOfBirth.toString() + '.г'}" style="color:white;"></p>
                 </div>
             </div>
         </div>
