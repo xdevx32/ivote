@@ -70,24 +70,25 @@ public class WebAppController {
         model.addAttribute("datetime", new Date());
         model.addAttribute("username", "Acho");
         model.addAttribute("mode", appMode);
-
-        PartyMember partyMember = new PartyMember();
-        partyMember.setDayOfBirth(LocalDate.now());
-        partyMember.setName("Йордан Величков");
-        partyMember.setPortraitUrl("https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
-        Party party1 = partyService.getParty(2);
-        partyMember.setParty(party1);
-        partyMemberService.addPartyMember(partyMember);
-        List<PartyMember> pms= new ArrayList<>();
-        pms.add(partyMember);
-        party1.setPartyMembers(pms);
+//
+//        PartyMember partyMember = new PartyMember();
+//        partyMember.setDayOfBirth(LocalDate.now());
+//        partyMember.setName("Йордан Величков");
+//        partyMember.setPortraitUrl("https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
+//        Party party1 = partyService.getParty(2);
+//        partyMember.setParty(party1);
+//        partyMemberService.addPartyMember(partyMember);
+//        List<PartyMember> pms= new ArrayList<>();
+//        pms.add(partyMember);
+//        party1.setPartyMembers(pms);
         List<Party> parties = new ArrayList<>();
         parties = partyService.getAllParties();
-        partyService.updateParty(party1);
+//        partyService.updateParty(party1);
 
         parties.sort(Comparator.comparing(Party::getNumber));
 //        model.addAttribute("party", party);
         model.addAttribute("parties", parties);
+
         clickedParty = party;
 
         return "../static/index-bs";
@@ -99,6 +100,9 @@ public class WebAppController {
 //        party = partyService.getParty(party.getId());
         party=partyService.getParty(id);
         clickedParty = party;
+
+        List<PartyMember> partyMembers = new ArrayList<>();
+        model.addAttribute("partyMembers", partyMemberService.getPartyMembersForParty(party));
         model.addAttribute("party", party);
         return "../static/party-info-page";
     }

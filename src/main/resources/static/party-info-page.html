@@ -22,7 +22,6 @@
 
     <!-- Theme CSS - Includes Bootstrap -->
     <link th:href="@{/css/creative.min.css}"   rel="stylesheet"/>
-    <link th:href="@{/css/additional-partyinfo.css}"   rel="stylesheet"/>
 
 </head>
 
@@ -71,7 +70,7 @@
                         <p class="text-muted mb-0" th:text="${party.slogan}"></p>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 text-center"  th:each="partyMember: ${party.partyMembers}">
+                <div class="col-lg-3 col-md-6 text-center" style="float:right;" th:each="partyMember: ${partyMembers}">
                 <h3 class="h4 mb-2" th:text="${partyMember.name + '. '}"></h3>
                     <img style="border-radius: 24px;" th:src="${partyMember.portraitUrl}" href="/party-info-page" height="300" width="200"/>
                     <p class="text-muted mb-0" th:text="${partyMember.dayOfBirth.toString() + '.г'}" style="color:white;"></p>

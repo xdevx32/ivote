@@ -16,9 +16,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 public class CSVReaderAndParser {
 
@@ -57,15 +55,15 @@ public class CSVReaderAndParser {
                         !nextRecord[0].equals("");
                 if(condition) {
                     Citizen citizen = new Citizen();
-
-                    citizen.setEGN(nextRecord[0]);
-                    citizen.setCity(nextRecord[1]);
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
+                    // Order:     name	egn	day_of_birth   city	 unique_vote_id	has_voted
+                    citizen.setName(nextRecord[0]);
+                    citizen.setEGN(nextRecord[1]);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
                     LocalDate dateOfBirth =LocalDate.parse(nextRecord[2], formatter);
                     citizen.setDayOfBirth(dateOfBirth);
-                    citizen.setHasVoted(Boolean.valueOf(nextRecord[3]));
-                    citizen.setName(nextRecord[4]);
-                    citizen.setUniqueVoteId(nextRecord[5]);
+                    citizen.setCity(nextRecord[3]);
+                    citizen.setUniqueVoteId(nextRecord[4]);
+                    citizen.setHasVoted(Boolean.valueOf(nextRecord[5]));
                     listOfRecords.add(citizen);
                 }
             }
@@ -93,10 +91,10 @@ public class CSVReaderAndParser {
                         !nextRecord[0].equals("");
                 if(condition) {
                     Party party = new Party();
-                    party.setGroupImageUrl(nextRecord[0]);
-                    party.setImageUrl(nextRecord[1]);
-                    party.setName(nextRecord[2]);
-                    party.setNumber(nextRecord[3]);
+                    party.setNumber(nextRecord[0]);
+                    party.setGroupImageUrl(nextRecord[1]);
+                    party.setImageUrl(nextRecord[2]);
+                    party.setName(nextRecord[3]);
                     party.setSlogan(nextRecord[4]);
                     listOfRecords.add(party);
                 }

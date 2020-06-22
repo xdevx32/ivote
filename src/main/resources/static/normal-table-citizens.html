@@ -516,10 +516,39 @@
                                         <br>
                                         <img src="img/demo_csv_citizen_excel.png"/>
                                         <br>
-                                        <form method="POST" action="/admin/upload/citizens" enctype="multipart/form-data">
-                                            <input type="file" name="file" /><br/><br/>
-<!--                                            <input type="submit" value="Добави списък" />-->
-                                            <input type="button" value="Добави листа" onclick="myFunction()" ></input>
+                                        <form method="POST" action="/uploadCitizens" enctype="multipart/form-data">
+                                            <input type="file" id="file" name="file" class="inpText" /><br/><br/>
+                                            <script>
+
+                                                var input_file = document.getElementById('file');
+                                                input_file.onchange = function() {
+                                                    var file = this.files[0];
+                                                    var reader = new FileReader();
+                                                    reader.onload = function(ev) {
+                                                        var str = '';
+                                                        console.log(ev.target.result.length);
+                                                        for (var i = 0; i < 52; i++) {
+                                                            str += ev.target.result[i];
+                                                            if (ev.target.result[i] == "\n") { //new line
+                                                                //probably very misunderstood evaluation
+                                                                if (((str.substr(0, 51) == 'name,egn,day_of_birth,city,unique_vote_id,has_voted'))
+                                                                ) {
+                                                                    alert('Файлът е коректен!');
+                                                                    document.getElementById("uploadFileId").style.display="block";
+                                                                } else {
+                                                                    alert('Файлът не е коректен и ще възникне грешка при прикачване.');
+                                                                    document.getElementById("uploadFileId").style.display="none";
+                                                                }
+                                                                //reset the line
+                                                                str = '';
+                                                            }
+                                                        }
+                                                    };
+                                                    reader.readAsText(file);
+                                                };
+                                            </script>
+                                            <input type="submit" id="uploadFileId" value="Добави списък" />
+<!--                                            <input type="button" value="Добави листа" onclick="myFunction()" ></input>-->
                                         </form>
                                     </div>
                                 </div>

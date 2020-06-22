@@ -552,9 +552,44 @@
                                             <h2 th:text="${message}"/>
                                         </div>
                                         <form method="POST" action="/admin/upload/parties" enctype="multipart/form-data">
-                                            <input type="file" name="file" /><br/><br/>
-<!--                                            <input type="submit" value="Добави листа" />-->
-                                            <input type="button" value="Добави листа" onclick="myFunction()" ></input>
+
+                                            <input type="file" id="file" name="file" class="inpText" /><br/><br/>
+                                            <script>
+                                                        console.l
+                                                var input_file = document.getElementById('file');
+                                                input_file.onchange = function() {
+                                                    var file = this.files[0];
+                                                    var reader = new FileReader();
+                                                    reader.onload = function(ev) {
+                                                        var str = '';
+                                                        console.log(ev.target.result.length);
+                                                        for (var i = 0; i < 52; i++) {
+                                                            str += ev.target.result[i];
+                                                            if (ev.target.result[i] == "\n") { //new line
+                                                                //probably very misunderstood evaluation
+                                                                if (((str.substr(0, 44) == 'number,group_image_url,image_url,name,slogan'))
+                                                                ) {
+                                                                    alert('Файлът е коректен!');
+                                                                    document.getElementById("uploadFileId").style.display="block";
+                                                                } else {
+                                                                    alert('Файлът не е коректен и ще възникне грешка при прикачване.');
+                                                                    document.getElementById("uploadFileId").style.display="none";
+                                                                }
+                                                                //reset the line
+                                                                str = '';
+                                                            }
+                                                        }
+                                                    };
+                                                    reader.readAsText(file);
+                                                };!nextRecord[0].equals("number") &&
+                                                !nextRecord[0].equals("group_image_url") &&
+                                                !nextRecord[0].equals("image_url") &&
+                                                !nextRecord[0].equals("name") &&
+                                                !nextRecord[0].equals("slogan") &&
+                                                !nextRecord[0].equals("");
+                                            </script>
+                                            <input type="submit" value="Добави листа" />
+<!--                                            <input type="button" value="Добави листа" onclick="myFunction()" ></input>-->
                                         </form>
 									</div>
 								</div>

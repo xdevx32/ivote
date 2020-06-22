@@ -40,7 +40,7 @@
                 responsive: true,
                 title:{
                     display:true,
-                    text:'Графика - брой гласове на партия'
+                    text:'Общ брой гласове за партия'
                 },
                 scales: {
                     yAxes: [{
@@ -85,7 +85,7 @@
             responsive: true,
             title:{
                 display:true,
-                text:'Графика - възраст на гласувалите'
+                text:'Избирателна активност по възраст'
             },
             scales: {
                 yAxes: [{
@@ -103,7 +103,7 @@
         data: {
             labels: citiesNamesList /*["ГЕРБ", "ВМРО", "БСП", "СДС", "АТАКА", "Марешки", "Спаси София"]*/,
             datasets: [{
-                label: 'Гласове за кандидати',
+                label: 'Процент гласове',
                 data: citiesCountList,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
@@ -130,7 +130,7 @@
             responsive: true,
             title:{
                 display:true,
-                text:'Графика - активност от различни градове и села.'
+                text:'Избирателна активност по населени места.'
             },
             scales: {
                 yAxes: [{
@@ -207,7 +207,7 @@
             responsive: true,
             title:{
                 display:true,
-                text:'Графика за гласове по час и година. ' + dateOfVote
+                text:'Активност по ден час и година. ' + dateOfVote
             },
             tooltips: {
                 mode: 'index',

@@ -180,11 +180,11 @@ body{
     }
   }
   &.wink{
-    .murica{
-      transition:0.3s ease-in-out;
-      transition-delay:1s;
-      opacity:1;
-    }
+    //.murica{
+    //  transition:0.3s ease-in-out;
+    //  transition-delay:1s;
+    //  opacity:1;
+    //}
     .ballotwrap{
       .ballot{
         animation:drop 1s ease-in-out forwards;
@@ -201,28 +201,28 @@ body{
     .container{
       #cube{
         .front{
-          .mouth{
-            transition-delay:0.8s;
-            height:60px;
-            border-radius:10px 10px 50px 50px;
-          }
-          .eye{
-            &:nth-of-type(1){
-              animation:wink 0.3s ease-in-out 1;
-              animation-delay:1.2s;
-              @keyframes wink{
-                0%{
-                  transform:scaleY(1) scaleX(1);
-                }
-                50%{
-                  transform:scaleY(0.2) scaleX(1.4);
-                }
-                100%{
-                  transform:scaleY(1) scaleX(1);
-                }
-              }
-            }
-          }
+          //.mouth{
+          //  transition-delay:0.8s;
+          //  height:60px;
+          //  border-radius:10px 10px 50px 50px;
+          //}
+          //.eye{
+          //  &:nth-of-type(1){
+          //    animation:wink 0.3s ease-in-out 1;
+          //    animation-delay:1.2s;
+          //    @keyframes wink{
+          //      0%{
+          //        transform:scaleY(1) scaleX(1);
+          //      }
+          //      50%{
+          //        transform:scaleY(0.2) scaleX(1.4);
+          //      }
+          //      100%{
+          //        transform:scaleY(1) scaleX(1);
+          //      }
+          //    }
+          //  }
+          //}
         }
       }
     }

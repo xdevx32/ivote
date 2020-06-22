@@ -1,5 +1,6 @@
 package com.nbu.evote.service;
 
+import com.nbu.evote.entity.Party;
 import com.nbu.evote.entity.PartyMember;
 import com.nbu.evote.repository.PartyMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PartyMemberService {
@@ -39,5 +41,18 @@ public class PartyMemberService {
         PartyMember partyMember = partyMemberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Party Member Id:" + id));
         partyMemberRepository.delete(partyMember);
+    }
+
+    public List<PartyMember> getPartyMembersForParty(Party party) {
+        Iterable<PartyMember> partyMembers = partyMemberRepository.findAll();
+        List<PartyMember> result = new ArrayList<>();
+
+        partyMembers.forEach(result::add);
+        result = result.stream()
+                .filter(
+                partyMember1 ->  partyMember1.getParty().getId() == party.getId()
+        ).collect(Collectors.toList());
+
+        return result;
     }
 }
