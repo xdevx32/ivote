@@ -56,7 +56,7 @@
     var barchart2 = new Chart(ctx2, {
         type: 'bar',
         data: {
-            labels: citizenAgesList /*["ГЕРБ", "ВМРО", "БСП", "СДС", "АТАКА", "Марешки", "Спаси София"]*/,
+            labels:  ["18", "1", "19", "20", "21", "22", "23"],
             datasets: [{
                 label: 'Гласове за кандидати',
                 data: citizenAgesListCount,
@@ -101,7 +101,7 @@
     var barchart3 = new Chart(ctx3, {
         type: 'bar',
         data: {
-            labels: citiesNamesList /*["ГЕРБ", "ВМРО", "БСП", "СДС", "АТАКА", "Марешки", "Спаси София"]*/,
+            labels: ["Burgas", "Sofia", "Plovdiv", "Varna", "Dobrich", "Veliko Turnovo", "Stara Zagora"],
             datasets: [{
                 label: 'Процент гласове',
                 data: citiesCountList,

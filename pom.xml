@@ -11,11 +11,10 @@
 	<groupId>com.example.evote.prototype</groupId>
 	<artifactId>demo.evote</artifactId>
 	<packaging>war</packaging>
-	<version>ivote-system-WAR-5.3</version>
+	<version>ivote-system-WAR-5.5</version>
 	<name>demo.evote</name>
 	<url>http://ivote-bg.com</url>
 	<description>Diploma work</description>
-
 	<properties>
 		<java.version>1.8</java.version>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
@@ -45,6 +44,21 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.3</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.4.6</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
