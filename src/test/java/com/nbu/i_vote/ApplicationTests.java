@@ -1,4 +1,4 @@
-package com.nbu.evote;
+package com.nbu.i_vote;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

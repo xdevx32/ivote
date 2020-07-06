@@ -1,6 +1,6 @@
-package com.nbu.evote.service;
+package com.nbu.i_vote.service;
 
-import com.nbu.evote.entity.Ballot;
+import com.nbu.i_vote.entity.Ballot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
