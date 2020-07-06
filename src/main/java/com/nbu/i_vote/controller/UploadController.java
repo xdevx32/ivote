@@ -8,7 +8,6 @@ import com.nbu.i_vote.service.CitizenService;
 import com.nbu.i_vote.utility.CSVReaderAndParser;
 import com.nbu.i_vote.service.PartyService;
 import com.opencsv.exceptions.CsvValidationException;
-import com.sun.codemodel.internal.JCatchBlock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
