@@ -157,10 +157,10 @@ public class UploadController {
                 ballot.setCitizen(citizen);
                 if (citizen.getId() % 2 == 0) {
                     ballot.setTime(z.plusHours(ThreadLocalRandom.current().nextInt(1, 24)));
-                    ballot.setDate(LocalDate.of(2020, 5, 12));
+                    ballot.setDate(LocalDate.of(2018, 5, 12));
                 } else {
                     ballot.setTime(z.plusHours(ThreadLocalRandom.current().nextInt(1, 24)));
-                    ballot.setDate(LocalDate.of(2019, 5, 21));
+                    ballot.setDate(LocalDate.of(2017, 5, 21));
                 }
 
                 List<Party> allParties = partyService.getAllParties();

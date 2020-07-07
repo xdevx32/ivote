@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example.evote.prototype</groupId>
-	<artifactId>demo.evote</artifactId>
+	<artifactId>ivote</artifactId>
 	<packaging>war</packaging>
-	<version>ivote-system-WAR-5.5</version>
+	<version>ivote-system-WAR-5.6-with-ssl</version>
 	<name>demo.evote</name>
 	<url>http://ivote-bg.com</url>
 	<description>Diploma work</description>
