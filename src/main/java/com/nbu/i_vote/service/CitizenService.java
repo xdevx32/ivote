@@ -42,14 +42,14 @@ public class CitizenService {
         citizenRepository.delete(citizen);
     }
 
-    public Citizen getCitizenByUniqueVoteIdAndEGN(String uniqueVoteId, String egn) {
-        return citizenRepository.findByEGNAndUniqueVoteId(uniqueVoteId, egn);
-    }
-
     public List<Citizen> getAllCitizens() {
         ArrayList<Citizen> citizenList = new ArrayList<>();
         citizenRepository.findAll().forEach(citizen -> citizenList.add(citizen));
 
         return citizenList;
+    }
+
+    public Citizen getCitizenByEGN(String egn) {
+        return citizenRepository.getCitizenByEGN(egn);
     }
 }

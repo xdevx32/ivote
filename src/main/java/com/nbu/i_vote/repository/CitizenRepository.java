@@ -7,6 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface CitizenRepository extends PagingAndSortingRepository<Citizen, Long> {
 
-    @Query(value = "SELECT * FROM citizen a WHERE unique_vote_id = ?1 AND egn = ?2", nativeQuery = true)
-    Citizen findByEGNAndUniqueVoteId(String uniqueVoteId, String EGN);
+    @Query(value = "SELECT * FROM citizen a WHERE egn = ?1", nativeQuery = true)
+    Citizen getCitizenByEGN(String egn);
 }

@@ -13,7 +13,7 @@ public class App1ConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-            http.requiresChannel().anyRequest().requiresSecure().and().
+            http/*.requiresChannel().anyRequest().requiresSecure().and()*/.
                     antMatcher("/admin/**")
                 .authorizeRequests().anyRequest().hasRole("ADMIN")
                 .and().httpBasic().authenticationEntryPoint(authenticationEntryPoint());

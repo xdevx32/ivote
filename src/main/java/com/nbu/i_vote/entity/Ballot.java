@@ -16,7 +16,6 @@ public class Ballot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    //AUTO WORKS!>>>>>
     private long id;
 
     LocalDate date;

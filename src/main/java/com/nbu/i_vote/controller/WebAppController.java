@@ -8,12 +8,9 @@ import com.nbu.i_vote.service.*;
 import com.nbu.i_vote.utility.DateContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import sun.net.www.http.HttpClient;
 
 
 import javax.net.ssl.SSLContext;
@@ -147,9 +144,13 @@ public class WebAppController {
         parties = partyService.getAllParties();
         Citizen real_citizen = new Citizen();
         if (citizen != null) {
-            real_citizen = this.citizenService.getCitizenByUniqueVoteIdAndEGN(citizen.getUniqueVoteId(), citizen.getEGN());
+            if(this.citizenService.getCitizenByEGN(citizen.getEGN()) != null) {
+                real_citizen = this.citizenService.getCitizenByEGN(citizen.getEGN());
+            } else {
+                return "../static/nonexisting-citizen";
+            }
         }
-        if (real_citizen.getHasVoted()) {
+        if (real_citizen.getHasVoted() == null) {
             return "../static/already-voted";
         }
 
