@@ -22,7 +22,7 @@ public class VoteResultsPieChartServiceImpl implements VoteResultsPieChartServic
 
         ArrayList<Party> partiesList = partyService.getAllParties();
         List<String> partyNamesList = partiesList.stream()
-                .sorted(Comparator.comparing(Party::getBallotsCount, Comparator.reverseOrder()))
+                .sorted(Comparator.comparing(party -> party.getBallotsCountForSpecificYear(passedYear), Comparator.reverseOrder()))
                 .map(Party::getName)
                 .collect(toList());
 

@@ -11,5 +11,5 @@ import static java.util.stream.Collectors.toList;
 
 public interface PartyNamesShortListService {
 @Autowired
-    List<String> generate();
+    List<String> generate(int year);
 }

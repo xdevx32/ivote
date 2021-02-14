@@ -17,11 +17,11 @@ public class PartyNamesShortListServiceImpl implements PartyNamesShortListServic
     PartyService partyService;
 
     @Override
-    public List<String> generate() {
+    public List<String> generate(int year) {
 
         ArrayList<Party> partiesList = partyService.getAllParties();
         List<String> partyNamesList = partiesList.stream()
-                .sorted(Comparator.comparing(Party::getBallotsCount, Comparator.reverseOrder()))
+                .sorted(Comparator.comparing(party -> party.getBallotsCountForSpecificYear(year), Comparator.reverseOrder()))
                 .map(Party::getName)
                 .collect(toList());
         List<String> newPartyShortNames = new ArrayList<>();
@@ -44,6 +44,6 @@ public class PartyNamesShortListServiceImpl implements PartyNamesShortListServic
             index++;
         }
 
-        return (ArrayList<String>)newPartyShortNames;
+        return newPartyShortNames;
     }
 }

@@ -262,7 +262,7 @@ public class WebAppController {
         List<String> voteTimeListPreviousYearStringsSorted = result.get("voteTimeListPreviousYearStringsSorted");
         List<String> voteTimeListCurrentYearStringsSorted = result.get("voteTimeListCurrentYearStringsSorted");
 
-        List<String> newPartyShortNames = partyNamesShortListService.generate();
+        List<String> newPartyShortNames = partyNamesShortListService.generate(passedYear);
         HashMap<Integer, String> pieChartData = voteResultsPieChartService.voteResultsPieChartData(passedYear);
         HashMap<Integer, String> agesPieChartData = agesPieChartService.generateAgesPieChart(passedYear);
         List<Integer> partyBallotsCountList = partyBallotCountListService.generate(passedYear);
@@ -277,8 +277,8 @@ public class WebAppController {
 
         model.addAttribute("partiesNamesList", newPartyShortNames);
         model.addAttribute("ballotsCountList", partyBallotsCountList);
-        model.addAttribute("ballotsTimelineListFirstYear", voteTimeListPreviousYearStringsSorted); // SWAPPED VALUES BECAUSE TOO LAZY
-        model.addAttribute("ballotsTimelineListSecondYear", voteTimeListCurrentYearStringsSorted);// SWAPPED VALUES BECAUSE TOO LAZY
+        model.addAttribute("ballotsTimelineListFirstYear", voteTimeListPreviousYearStringsSorted); // SWAPPED VALUES
+        model.addAttribute("ballotsTimelineListSecondYear", voteTimeListCurrentYearStringsSorted);// SWAPPED VALUES
         model.addAttribute("dateOfVoteFromBackend", dateOfVoteFromBackend);
         model.addAttribute("totalBallotsCastedForSection", totalBallotsCastedForSection);
         model.addAttribute("pieChartData", pieChartData);

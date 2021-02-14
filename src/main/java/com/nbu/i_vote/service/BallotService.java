@@ -3,6 +3,8 @@ package com.nbu.i_vote.service;
 import com.nbu.i_vote.entity.Ballot;
 import com.nbu.i_vote.repository.BallotRepository;
 import java.util.List;
+
+import com.nbu.i_vote.repository.PartyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ public class BallotService {
 
     @Autowired
     private BallotRepository ballotRepository;
+
+    @Autowired
+    private PartyRepository partyRepository;
 
     public List<Ballot> getBallots() {
         List<Ballot> ballotList = new ArrayList<>();
@@ -45,4 +50,10 @@ public class BallotService {
         ballotRepository.delete(ballot);
     }
 
+    public Integer getBallotCountByPartyName(String partyName) {
+        Integer partyId = (int) partyRepository.findByName(partyName).getId();
+        List<Ballot> ballots = ballotRepository.getBallotsByPartyId(partyId);
+
+        return ballots.size();
+    }
 }

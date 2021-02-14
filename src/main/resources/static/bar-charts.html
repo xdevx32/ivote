@@ -313,7 +313,9 @@
 
     /* <![CDATA[*/
         var partyNamesList = [[${partiesNamesList}]];
+        console.log(partyNamesList);
         var partiesBallotsCount =  [[${ballotsCountList}]];
+        console.log(partiesBallotsCount);
         var citizenAgesListCount = [[${citizenAgesListCount}]];
         var citizenAgesList = [[${citizenAgesList}]];
         var citiesCountList = [[${citiesCountList}]];
@@ -335,7 +337,7 @@
 
         function loadYearsSelector()
         {
-            var startyear = 2020;
+            var startyear = 2030;
             var endyear = 2000;
             for (var i = startyear;i>=endyear;i--){
                 node=document.createElement("Option");
