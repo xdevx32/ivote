@@ -13,10 +13,11 @@ public class App1ConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-            http/*.requiresChannel().anyRequest().requiresSecure().and()*/.
-                    antMatcher("/admin/**")
-                .authorizeRequests().anyRequest().hasRole("ADMIN")
-                .and().httpBasic().authenticationEntryPoint(authenticationEntryPoint());
+        //Commented on 10.02.2021. These lines add and remove the /admin authentication security.
+//            http/*.requiresChannel().anyRequest().requiresSecure().and()*/.
+//                    antMatcher("/admin/**")
+//                .authorizeRequests().anyRequest().hasRole("ADMIN")
+//                .and().httpBasic().authenticationEntryPoint(authenticationEntryPoint());
     }
 
     @Bean

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.net.ssl.SSLContext;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -95,6 +96,31 @@ public class WebAppController {
         return "../static/index-bs";
     }
 
+    // http://localhost:8081/addSampleCitizen/Stephan/92214385/26.05.1987/Gormazovo/123444/
+    // http://localhost:8081/addSampleCitizen/Joseph/92843385/26.05.1981/Panagiurishte/1234321/
+    @RequestMapping(value = "/addSampleCitizen/{name}/{egn}/{date}/{city}/{vote_id}/",
+            method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
+    public void addSampleCitizen(@PathVariable("name") String name,
+                                   @PathVariable("egn") String egn,
+                                   @PathVariable("date") String date,
+                                   @PathVariable("city") String city,
+                                   @PathVariable("vote_id") String vote_id) {
+
+
+        // Order:     name	egn	day_of_birth   city	 unique_vote_id	has_voted
+
+        Citizen citizen = new Citizen();
+        citizen.setName(name);
+        citizen.setEGN(egn);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateOfBirth =LocalDate.parse(date, formatter);
+        citizen.setDayOfBirth(dateOfBirth);
+        citizen.setCity(city);
+        citizen.setUniqueVoteId(vote_id);
+        citizen.setHasVoted(false);
+        citizenService.addCitizen(citizen);
+        System.out.println("Citizen created: " + citizen.getName().toString());
+    }
 
     @RequestMapping(value = "/party-info-page/{id}/", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
     public String setClickedParty(Model model, @ModelAttribute Party party, @PathVariable("id") Integer id) {
