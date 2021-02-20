@@ -42,7 +42,7 @@ public class UploadController {
 
     private static String UPLOADED_FOLDER = "src/main/resources/csv/uploaded/";
 
-    @PostMapping("/uploadCitizens")
+    @PostMapping("/admin/upload/citizens")
     public String citizenFileUploader(@RequestParam("file") MultipartFile file,Model model,
                                    RedirectAttributes redirectAttributes) {
 
@@ -79,7 +79,7 @@ public class UploadController {
         return "redirect:/uploadStatus";
     }
 
-    @PostMapping("uploaParties")
+    @PostMapping("/admin/upload/parties")
     public String partyFileUploader(@RequestParam("file") MultipartFile file,Model model,
                                    RedirectAttributes redirectAttributes) {
 
