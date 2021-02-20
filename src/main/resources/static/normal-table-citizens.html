@@ -516,7 +516,7 @@
                                         <br>
                                         <img src="img/demo_csv_citizen_excel.png"/>
                                         <br>
-                                        <form method="POST" action="/admin/upload/citizens" enctype="multipart/form-data">
+                                        <form method="POST" th:action="@{/admin/upload/citizens}" enctype="multipart/form-data">
                                             <input type="file" id="file" name="file" class="inpText" /><br/><br/>
                                             <script>
 
@@ -547,7 +547,7 @@
                                                     reader.readAsText(file);
                                                 };
                                             </script>
-                                            <input type="submit" id="uploadFileId" value="Добави списък" />
+                                            <input type="submit" id="uploadFileId" value="Добави списasdasdasdasdasdasdasdasdasdasdasък" />
 <!--                                            <input type="button" value="Добави листа" onclick="myFunction()" ></input>-->
                                         </form>
                                     </div>
