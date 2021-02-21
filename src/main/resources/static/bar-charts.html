@@ -192,7 +192,7 @@
         <div class="container">
             <div class="row">
                 <form th:action="@{/barchart}" th:object="${dateContainer}">
-                    <select id="yearselect" onclick="loadYearsSelector()" th:field="*{year}"></select>
+                    <select id="yearselect" value="2021" onclick="loadYearsSelector()" th:field="*{year}"></select>
                     <!--                                        <label>Дата: </label><input type="datetime-local" th:field="*{dateTime}"/>-->
                     <input type="submit" value="Провери данни за избраната година"/>
                 </form>
@@ -347,6 +347,8 @@
             }
         }
         loadYearsSelector();
+        $("#yearselect").val("2021").change();
+        console.log("Selected");
 
     /*]]>*/
 
