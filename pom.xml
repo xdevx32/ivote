@@ -11,7 +11,7 @@
 	<groupId>com.example.evote.prototype</groupId>
 	<artifactId>ivote</artifactId>
 	<packaging>war</packaging>
-	<version>ivote-system-WAR-5.6-with-ssl</version>
+	<version>ivote-system-WAR-6.0--with-ssl</version>
 	<name>demo.evote</name>
 	<url>http://ivote-bg.com</url>
 	<description>Diploma work</description>
@@ -95,7 +95,6 @@
 	</dependencies>
 
 	<build>
-
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -107,10 +106,12 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<mainClass>com.nbu.i_vote.Application</mainClass>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.7</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
 					<nonFilteredFileExtensions>
@@ -121,10 +122,24 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.6</version>
+				<version>3.2.2</version>
 				<configuration>
-					<attachClasses>true</attachClasses>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>TestFail.java</include>
+					</includes>
+					<testFailureIgnore>true</testFailureIgnore>
 				</configuration>
 			</plugin>
 		</plugins>
