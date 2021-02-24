@@ -187,21 +187,8 @@
                     <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
                         <li class="active"><a data-toggle="tab" href="#Home"><i class="notika-icon notika-house"></i>Основни функции</a>
                         </li>
-                        <!--                        <li><a data-toggle="tab" href="#mailbox"><i class="notika-icon notika-mail"></i> Email</a>-->
-                        <!--                        </li>-->
-                        <!--                        <li><a data-toggle="tab" href="#Interface"><i class="notika-icon notika-edit"></i> Interface</a>-->
-                        <!--                        </li>-->
-                        <!--                        <li><a data-toggle="tab" href="#Charts"><i class="notika-icon notika-bar-chart"></i> Charts</a>-->
-                        <!--                        </li>-->
                         <li><a data-toggle="tab" href="#Charts"><i class="notika-icon notika-bar-chart"></i>Графики</a></li>
                         <li><a data-toggle="tab" href="#Tables"><i class="notika-icon notika-windows"></i>Добавяне</a></li>
-                        <!--                        </li>-->
-                            <!--                        <li><a data-toggle="tab" href="#Forms"><i class="notika-icon notika-form"></i> Forms</a>-->
-                            <!--                        </li>-->
-                            <!--                        <li><a data-toggle="tab" href="#Appviews"><i class="notika-icon notika-app"></i> App views</a>-->
-                            <!--                        </li>-->
-                            <!--                        <li><a data-toggle="tab" href="#Page"><i class="notika-icon notika-support"></i> Pages</a>-->
-                            <!--                        </li>-->
                     </ul>
                     <div class="tab-content custom-menu-content">
                         <div id="Home" class="tab-pane in active notika-tab-menu-bg animated flipInX">
@@ -246,8 +233,11 @@
                                         <div th:if="${message}">
                                             <h2 th:text="${message}"/>
                                         </div>
-                                        <form method="POST" action="/admin/upload/parties" enctype="multipart/form-data">
-
+                                        <p>При прикачването е важно да спазите формата на данните, както е посочен: </p>
+                                        <br>
+                                        <img src="img/demo_csv_party_excel.png"/>
+                                        <br>
+                                        <form method="POST" th:action="@{/admin/upload/parties}" enctype="multipart/form-data">
                                             <input type="file" id="file" name="file" class="inpText" /><br/><br/>
                                             <script>
                                                 var input_file = document.getElementById('file');
@@ -275,12 +265,13 @@
                                                         }
                                                     };
                                                     reader.readAsText(file);
-                                                };!nextRecord[0].equals("number") &&
-                                                !nextRecord[0].equals("group_image_url") &&
-                                                !nextRecord[0].equals("image_url") &&
-                                                !nextRecord[0].equals("name") &&
-                                                !nextRecord[0].equals("slogan") &&
-                                                !nextRecord[0].equals("");
+                                                };
+<!--                                                !nextRecord[0].equals("number") &&-->
+<!--                                                !nextRecord[0].equals("group_image_url") &&-->
+<!--                                                !nextRecord[0].equals("image_url") &&-->
+<!--                                                !nextRecord[0].equals("name") &&-->
+<!--                                                !nextRecord[0].equals("slogan") &&-->
+<!--                                                !nextRecord[0].equals("");-->
                                             </script>
                                             <input type="submit" value="Добави листа" />
 <!--                                            <input type="button" value="Добави листа" onclick="myFunction()" ></input>-->

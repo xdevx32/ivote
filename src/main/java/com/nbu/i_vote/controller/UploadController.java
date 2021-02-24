@@ -95,7 +95,9 @@ public class UploadController {
         try {
 
             byte[] bytes = file.getBytes();
+            UPLOADED_FOLDER = UPLOADED_FOLDER.replaceAll("/", "\\\'");
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+
             Files.write(path, bytes);
 
             redirectAttributes.addFlashAttribute("message",
