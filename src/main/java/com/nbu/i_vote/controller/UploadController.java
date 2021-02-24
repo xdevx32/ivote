@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,7 +41,7 @@ public class UploadController {
     @Autowired
     private BallotService ballotService;
 
-    private static String UPLOADED_FOLDER = "src/main/resources/csv/uploaded/";
+    private static String UPLOADED_FOLDER = "/src/main/resources/csv/uploaded/";
 
     @PostMapping("/admin/upload/citizens")
     public String citizenFileUploader(@RequestParam("file") MultipartFile file,Model model,
@@ -56,7 +57,10 @@ public class UploadController {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
-
+//            //This piece of code reads the file as a string.
+//            System.out.println("FILE!!!!!!!!!!!!!!!!!!!!!");
+//            String content = new String(file.getBytes(), StandardCharsets.UTF_8);
+//            System.out.println(content);
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
             CSVReaderAndParser csvReaderAndParser = new CSVReaderAndParser(citizenService);
